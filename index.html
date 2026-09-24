@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Easy Food - Seu Delivery Rápido e Sabores Incríveis</title>
+  
+  <!-- Fontes & Ícones -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #FF5722;
+      --primary-hover: #E64A19;
+      --primary-light: #FFEBEE;
+      --secondary: #263238;
+      --accent: #FFB300;
+      --bg-body: #F8F9FA;
+      --bg-card: #FFFFFF;
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+      --border-color: #E2E8F0;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+      --shadow-lg: 0 16px 32px rgba(0,0,0,0.12);
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header & Navigation */
+    header {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .logo i {
+      font-size: 1.8rem;
+    }
+
+    .search-bar {
+      flex: 1;
+      max-width: 450px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.8rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background-color: #F1F5F9;
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+
+    .search-bar input:focus {
+      outline: none;
+      background-color: #FFFFFF;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.15);
+    }
+
+    .search-bar i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.65rem 1.25rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+      background-color: #F1F5F9;
+    }
+
+    .cart-btn {
+      position: relative;
+      background: #F1F5F9;
+      color: var(--text-main);
+      padding: 0.65rem;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background-color: var(--primary);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #FFFFFF;
+    }
+
+    /* Hero Banner */
+    .hero {
+      background: linear-gradient(135deg, #FF5722 0%, #FF8A65 100%);
+      color: white;
+      padding: 4rem 1.5rem;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+      margin-bottom: 2rem;
+    }
+
+    .hero-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .hero-text h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .hero-text p {
+      font-size: 1.15rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    .hero-image img {
+      width: 100%;
+      max-height: 360px;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Categories Filter */
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .categories {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      margin-bottom: 2.5rem;
+      scrollbar-width: thin;
+    }
+
+    .category-chip {
+      padding: 0.6rem 1.2rem;
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 99px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .category-chip.active, .category-chip:hover {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Restaurant Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-img-wrapper {
+      position: relative;
+      height: 180px;
+    }
+
+    .card-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 0.25rem 0.6rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .card-content {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-info {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .card-footer {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .price {
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--primary);
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      width: 100%;
+      max-width: 420px;
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      animation: modalIn 0.25s ease-out;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      font-size: 0.95rem;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--secondary);
+      color: white;
+      padding: 0.8rem 1.25rem;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      z-index: 2000;
+      transform: translateY(150%);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--secondary);
+      color: white;
+      padding: 3rem 1.5rem 1.5rem;
+      margin-top: auto;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-brand h3 {
+      color: var(--primary);
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-brand p {
+      color: #94A3B8;
+      font-size: 0.9rem;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 1.5rem;
+      border-top: 1px solid #334155;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #94A3B8;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-text h1 {
+        font-size: 2rem;
+      }
+      .hero-image {
+        display: none;
+      }
+      .search-bar {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <i class="fa-solid fa-utensils"></i> Easy Food
+      </a>
+
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="Buscar por restaurantes ou pratos...">
+      </div>
+
+      <div class="nav-actions">
+        <button class="cart-btn" onclick="toggleCart()" title="Carrinho">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span class="cart-badge" id="cartCount">0</span>
+        </button>
+        <button class="btn btn-outline" id="authBtn" onclick="openAuthModal()">
+          <i class="fa-regular fa-user"></i> Entrar
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-text">
+        <h1>Sua comida favorita, entregue com facilidade.</h1>
+        <p>Descubra os melhores restaurantes da sua região com entregas rápidas e ofertas exclusivas todos os dias.</p>
+        <button class="btn btn-primary" onclick="scrollToMenu()" style="background: white; color: var(--primary); font-size: 1rem; padding: 0.8rem 1.5rem;">
+          <i class="fa-solid fa-fire"></i> Ver Cardápio
+        </button>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Comida Deliciosa">
+      </div>
+    </div>
+  </section>
+
+  <!-- Conteúdo Principal -->
+  <main id="menuSection">
+    <h2 class="section-title"><i class="fa-solid fa-layer-group" style="color: var(--primary);"></i> Categorias Populares</h2>
+    
+    <div class="categories">
+      <button class="category-chip active" onclick="filterCategory('todos', this)">
+        <i class="fa-solid fa-border-all"></i> Todos
+      </button>
+      <button class="category-chip" onclick="filterCategory('hamburguer', this)">
+        <i class="fa-solid fa-burger"></i> Hambúrgueres
+      </button>
+      <button class="category-chip" onclick="filterCategory('pizza', this)">
+        <i class="fa-solid fa-pizza-slice"></i> Pizzas
+      </button>
+      <button class="category-chip" onclick="filterCategory('japonesa', this)">
+        <i class="fa-solid fa-fish"></i> Japonesa
+      </button>
+      <button class="category-chip" onclick="filterCategory('sobremesas', this)">
+        <i class="fa-solid fa-ice-cream"></i> Sobremesas
+      </button>
+      <button class="category-chip" onclick="filterCategory('bebidas', this)">
+        <i class="fa-solid fa-wine-glass"></i> Bebidas
+      </button>
+    </div>
+
+    <h2 class="section-title"><i class="fa-solid fa-store" style="color: var(--primary);"></i> Restaurantes & Opções</h2>
+    
+    <div class="grid" id="restaurantGrid">
+      <!-- Cards serão carregados dinamicamente ou com fallback -->
+    </div>
+  </main>
+
+  <!-- Modal de Login/Autenticação -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
+      <h2 style="margin-bottom: 0.5rem; font-weight: 800;">Bem-vindo de volta!</h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Acesse sua conta do Easy Food</p>
+      
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" required placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input type="password" id="password" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+          <i class="fa-solid fa-right-to-bracket"></i> Entrar
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check" style="color: #4ADE80;"></i>
+    <span id="toastMessage">Item adicionado com sucesso!</span>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        3<h3>Easy Food</h3>
+        <p>Facilitando a sua alimentação diária com tecnologia, rapidez e os melhores sabores da cidade.</p>
+      </div>
+      <div>
+        <h4 style="margin-bottom: 1rem;">Navegação</h4>
+        <p style="color: #94A3B8; font-size: 0.9rem; line-height: 2;"><a href="#" style="color: inherit; text-decoration: none;">Início</a></p>
+        <p style="color: #94A3B8; font-size: 0.9rem; line-height: 2;"><a href="#" style="color: inherit; text-decoration: none;">Restaurantes</a></p>
+        <p style="color: #94A3B8; font-size: 0.9rem; line-height: 2;"><a href="#" style="color: inherit; text-decoration: none;">Cadastrar Restaurante</a></p>
+      </div>
+      <div>
+        <h4 style="margin-bottom: 1rem;">Suporte</h4>
+        <p style="color: #94A3B8; font-size: 0.9rem; line-height: 2;">Central de Ajuda</p>
+        <p style="color: #94A3B8; font-size: 0.9rem; line-height: 2;">Termos de Uso</p>
+        <p style="color: #94A3B8; font-size: 0.9rem; line-height: 2;">Privacidade</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Easy Food. Todos os direitos reservados.
+    </div>
+  </footer>
+
+  <!-- Script Interativo & Integração de API -->
+  <script>
+    let cartCount = 0;
+    
+    // Dados de demonstração (fallback caso a API ainda não tenha dados cadastrados)
+    const mockData = [
+      {
+        id: 1,
+        name: "Burguer Craft Studio",
+        category: "hamburguer",
+        rating: "4.9",
+        deliveryTime: "25-35 min",
+        price: 32.90,
+        image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: 2,
+        name: "Bella Napoli Pizzaria",
+        category: "pizza",
+        rating: "4.8",
+        deliveryTime: "30-45 min",
+        price: 49.90,
+        image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: 3,
+        name: "Sakura Sushi Bar",
+        category: "japonesa",
+        rating: "4.9",
+        deliveryTime: "40-50 min",
+        price: 68.00,
+        image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: 4,
+        name: "Sweet Dreams Doceria",
+        category: "sobremesas",
+        rating: "4.7",
+        deliveryTime: "15-25 min",
+        price: 18.50,
+        image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80"
+      }
+    ];
+
+    // Carregar restaurantes da API Easy Food ou Fallback
+    async function fetchRestaurants() {
+      const grid = document.getElementById('restaurantGrid');
+      grid.innerHTML = '';
+
+      try {
+        const response = await fetch('/api/restaurants');
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data) && data.length > 0) {
+            renderCards(data);
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('API não respondendo no momento, carregando dados de demonstração.');
+      }
+
+      renderCards(mockData);
+    }
+
+    function renderCards(items) {
+      const grid = document.getElementById('restaurantGrid');
+      grid.innerHTML = items.map(item => `
+        <div class="card" data-category="${item.category || 'outros'}">
+          <div class="card-img-wrapper">
+            <img src="${item.image || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80'}" alt="${item.name}">
+            <div class="card-badge"><i class="fa-solid fa-star" style="color: var(--accent);"></i> ${item.rating || '4.5'}</div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">${item.name}</h3>
+            <div class="card-info">
+              <span><i class="fa-regular fa-clock"></i> ${item.deliveryTime || '20-30 min'}</span>
+              <span>•</span>
+              <span><i class="fa-solid fa-motorcycle"></i> Entrega Grátis</span>
+            </div>
+            <div class="card-footer">
+              <span class="price">R$ ${(item.price || 29.90).toFixed(2).replace('.', ',')}</span>
+              <button class="btn btn-primary" onclick="addToCart('${item.name}')">
+                <i class="fa-solid fa-plus"></i> Adicionar
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addToCart(name) {
+      cartCount++;
+      document.getElementById('cartCount').textContent = cartCount;
+      showToast(`" ${name} " adicionado ao carrinho!`);
+    }
+
+    function filterCategory(category, element) {
+      document.querySelectorAll('.category-chip').forEach(chip => chip.classList.remove('active'));
+      element.classList.add('active');
+
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        if (category === 'todos' || card.dataset.category === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function openAuthModal() {
+      document.getElementById('authModal').classList.add('active');
+    }
+
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.remove('active');
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        if (response.ok) {
+          showToast('Login realizado com sucesso!');
+          closeAuthModal();
+        } else {
+          showToast('Credenciais inválidas. Tente novamente.');
+        }
+      } catch (err) {
+        showToast('Login efetuado (modo simulação).');
+        closeAuthModal();
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMessage').textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function scrollToMenu() {
+      document.getElementById('menuSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', fetchRestaurants);
+  </script>
+</body>
+</html>
