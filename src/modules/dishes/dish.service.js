@@ -1,4 +1,5 @@
 const prisma = require("../../database/prisma");
+const imageService = require("../shared/image.service");
 
 function validateDish(data) {
   if (typeof data.name !== "string" || !data.name.trim()) {
@@ -121,12 +122,41 @@ async function updateDish(dishId, data, userId) { // ⬅️ novo parâmetro user
   });
 }
 
-async function deleteDish(dishId, userId) { // ⬅️ novo parâmetro userId
-  const dish = await getDishWithRestaurant(dishId); // ⬅️
+async function deleteDish(dishId, userId) {
+  const dish = await getDishWithRestaurant(dishId);
 
-  ensureOwnership(dish.restaurant, userId); // ⬅️
+  ensureOwnership(dish.restaurant, userId);
+
+  if (dish.imageUrl) {
+    await imageService.deleteImage(dish.imageUrl);
+  }
 
   await prisma.dish.delete({ where: { id: dish.id } });
+}
+
+async function uploadDishImage(dishId, fileBuffer, userId) {
+  const dish = await getDishWithRestaurant(dishId);
+
+  ensureOwnership(dish.restaurant, userId);
+
+  // Otimiza a imagem do prato para dimensões e peso ideais para cardápio (WebP)
+  const imageUrl = await imageService.processAndSaveImage(fileBuffer, {
+    folder: "dishes",
+    width: 800,
+    height: 600,
+    fit: "inside",
+    quality: 80
+  });
+
+  // Remove imagem antiga do disco, se existente
+  if (dish.imageUrl) {
+    await imageService.deleteImage(dish.imageUrl);
+  }
+
+  return prisma.dish.update({
+    where: { id: dish.id },
+    data: { imageUrl }
+  });
 }
 
 module.exports = {
@@ -135,5 +165,6 @@ module.exports = {
   getDish,
   updateDish,
   deleteDish,
+  uploadDishImage,
   parseId
 };

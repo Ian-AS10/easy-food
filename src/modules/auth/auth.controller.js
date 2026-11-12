@@ -39,4 +39,33 @@ async function login(req, res) {
   }
 }
 
-module.exports = { register, login };
+async function uploadAvatar(req, res) {
+  try {
+    // Garante que o ID venha estritamente de req.user (extraído pelo middleware de JWT)
+    const userId = req.user?.id;
+    const file = req.file;
+
+    if (!userId) {
+      return res.status(401).json({ error: "Usuário não autenticado" });
+    }
+
+    if (!file) {
+      return res.status(400).json({ error: "Nenhum arquivo enviado. Por favor, envie uma imagem." });
+    }
+
+    const updatedUser = await authService.uploadAvatar(userId, file.buffer);
+
+    return res.status(200).json({
+      message: "Foto de perfil atualizada com sucesso",
+      user: updatedUser
+    });
+  } catch (error) {
+    console.error("Erro no upload do avatar:", error.message);
+    const status = error.statusCode || 500;
+    return res.status(status).json({
+      error: status === 500 ? "Erro interno do servidor ao processar avatar" : error.message
+    });
+  }
+}
+
+module.exports = { register, login, uploadAvatar };

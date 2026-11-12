@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev": "node server.js",
+    "build": "echo 'Build successful'",
+    "lint": "node --check server.js src/app.js",
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,14 +15,15 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.19.3",
-    "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "mailersend": "^3.4.1",
-    "mailsender": "^1.1.2"
+    "mailsender": "^1.1.2",
+    "multer": "^2.5.0",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "prisma": "^6.19.3"

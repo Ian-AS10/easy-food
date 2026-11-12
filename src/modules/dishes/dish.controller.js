@@ -52,11 +52,33 @@ async function remove(req, res) {
   }
 }
 
+async function uploadImage(req, res) {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "Nenhum arquivo enviado. Por favor, envie uma imagem." });
+    }
+
+    const dish = await dishService.uploadDishImage(
+      req.params.dishId,
+      req.file.buffer,
+      req.user.id
+    );
+
+    return res.status(200).json({
+      message: "Imagem do prato atualizada com sucesso",
+      dish
+    });
+  } catch (error) {
+    return handleError(res, error);
+  }
+}
+
 module.exports = {
   create,
   list,
   getById,
   update,
   remove,
+  uploadImage,
   handleError
 };

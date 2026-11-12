@@ -21,10 +21,11 @@ model Restaurant {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String @db.VarChar(150)
-  email    String @unique @db.VarChar(150)
-  password String @db.VarChar(255)
+  id          Int          @id @default(autoincrement())
+  name        String       @db.VarChar(150)
+  email       String       @unique @db.VarChar(150)
+  password    String       @db.VarChar(255)
+  avatarUrl   String?      @db.VarChar(255)
   restaurants Restaurant[]
 }
 

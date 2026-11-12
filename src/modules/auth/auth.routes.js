@@ -3,10 +3,15 @@ const controller = require("./auth.controller");
 const authService = require("./auth.service");
 const authenticate = require("./auth.middleware");
 
+const { uploadSingle } = require("../shared/upload.middleware");
+
 const router = express.Router();
 
 router.post("/register", controller.register);
 router.post("/login", controller.login);
+
+// Upload e atualização da foto de perfil do usuário autenticado
+router.post("/me/image", authenticate, uploadSingle("image"), controller.uploadAvatar);
 
 // Rota protegida: busca os dados completos do usuário no banco
 router.get("/me", authenticate, async (req, res) => {

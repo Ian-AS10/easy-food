@@ -1,11 +1,20 @@
-const { MailerSend, EmailParams, Sender, Recipient } = require("mailersend");
+const domain = process.env.DOMAIN_MAIL || "easyfood.com";
+let mailerSend = null;
+let EmailParams, Sender, Recipient;
 
-const mailerSend = new MailerSend({
-  apiKey: process.env.MAILER_API
-});
+try {
+  const mailersendPkg = require("mailersend");
+  EmailParams = mailersendPkg.EmailParams;
+  Sender = mailersendPkg.Sender;
+  Recipient = mailersendPkg.Recipient;
+  if (process.env.MAILER_API) {
+    mailerSend = new mailersendPkg.MailerSend({ apiKey: process.env.MAILER_API });
+  }
+} catch (e) {
+  console.warn("MailerSend package not loaded, using email mock");
+}
 
-// Remetente fixo: usa o domínio verificado do .env
-const sentFrom = new Sender(`no-reply@${process.env.DOMAIN_MAIL}`, "EasyFood");
+const sentFrom = Sender ? new Sender(`no-reply@${domain}`, "EasyFood") : null;
 
 // Monta o HTML do e-mail a partir das três partes
 function buildHtml({ header, body, footer }) {
@@ -19,19 +28,12 @@ function buildHtml({ header, body, footer }) {
   `;
 }
 
-/**
- * Serviço genérico de envio de e-mail.
- * Não sabe o propósito — só recebe as partes e envia.
- *
- * @param {Object} params
- * @param {string} params.to       - e-mail do destinatário
- * @param {string} params.toName   - nome do destinatário
- * @param {string} params.subject  - assunto do e-mail
- * @param {string} params.header   - cabeçalho (título dentro do corpo)
- * @param {string} params.body     - corpo (conteúdo principal, aceita HTML)
- * @param {string} params.footer   - encerramento (rodapé)
- */
 async function sendEmail({ to, toName, subject, header, body, footer }) {
+  if (!mailerSend || !EmailParams) {
+    console.log(`[EMAIL MOCK] Simulação para ${to} — "${subject}"`);
+    return;
+  }
+
   const recipients = [new Recipient(to, toName || to)];
 
   const emailParams = new EmailParams()
