@@ -191,11 +191,8 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
           </div>
         </div>
         <form id="avatar-upload-form">
-          <div class="field">
-            <label for="avatar-input">Foto de perfil (PNG, JPEG ou WebP)</label>
-            <input type="file" id="avatar-input" accept="image/png, image/jpeg, image/webp" required>
-          </div>
-          <button type="submit" class="btn" id="upload-avatar-btn">Enviar foto de perfil</button>
+          <input type="file" id="avatar-input" accept="image/png, image/jpeg, image/webp" hidden>
+          <button type="button" class="btn" id="upload-avatar-btn">Enviar foto de perfil</button>
         </form>
         <div class="msg" id="avatar-form-message" role="status"></div>
       </div>
@@ -216,11 +213,8 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
           <img id="dish-img" src="" alt="Imagem do prato" style="display:none">
         </div>
         <form id="dish-upload-form">
-          <div class="field">
-            <label for="dish-input">Imagem do prato</label>
-            <input type="file" id="dish-input" accept="image/png, image/jpeg, image/webp" required>
-          </div>
-          <button type="submit" class="btn" id="upload-dish-btn">Enviar imagem do prato</button>
+          <input type="file" id="dish-input" accept="image/png, image/jpeg, image/webp" hidden>
+          <button type="button" class="btn" id="upload-dish-btn">Enviar imagem do prato</button>
         </form>
         <div class="msg" id="dish-form-message" role="status"></div>
       </div>
@@ -420,21 +414,21 @@ async function onDishSelectChange() {
   } catch (err) { setImg("dish-img", "dish-placeholder", null); }
 }
 
-function bindUpload({ formId, inputId, btnId, msgId, url, idleText, okText, apply }) {
-  const form = $(formId);
-  form.addEventListener("submit", async e => {
-    e.preventDefault();
-    const file = $(inputId).files[0]; if (!file) return;
-    const t = await ensureAuthToken(), btn = $(btnId);
+function bindUpload({ inputId, btnId, msgId, url, idleText, okText, apply }) {
+  const input = $(inputId), btn = $(btnId);
+  btn.addEventListener("click", () => input.click());
+  input.addEventListener("change", async () => {
+    const file = input.files[0]; if (!file) return;
+    const t = await ensureAuthToken();
     btn.disabled = true; btn.textContent = "Enviando...";
     const body = new FormData(); body.append("image", file);
     try {
       const res = await fetch(url(), { method: "POST", headers: { Authorization: `Bearer ${t}` }, body });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erro ao enviar imagem");
-      showMsg(msgId, okText, "success"); apply(data); form.reset();
+      showMsg(msgId, okText, "success"); apply(data);
     } catch (err) { showMsg(msgId, err.message, "error"); }
-    finally { btn.disabled = false; btn.textContent = idleText; }
+    finally { btn.disabled = false; btn.textContent = idleText; input.value = ""; }
   });
 }
 bindUpload({ formId: "avatar-upload-form", inputId: "avatar-input", btnId: "upload-avatar-btn", msgId: "avatar-form-message",
