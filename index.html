@@ -3,793 +3,890 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Easy Food - Seu Delivery Rápido e Sabores Incríveis</title>
-  
-  <!-- Fontes & Ícones -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+  <title>EasyFood</title>
   <style>
-    :root {
-      --primary: #FF5722;
-      --primary-hover: #E64A19;
-      --primary-light: #FFEBEE;
-      --secondary: #263238;
-      --accent: #FFB300;
-      --bg-body: #F8F9FA;
-      --bg-card: #FFFFFF;
-      --text-main: #1E293B;
-      --text-muted: #64748B;
-      --border-color: #E2E8F0;
-      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
-      --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
-      --shadow-lg: 0 16px 32px rgba(0,0,0,0.12);
-      --radius-sm: 8px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     body {
-      background-color: var(--bg-body);
-      color: var(--text-main);
-      line-height: 1.5;
-      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .phone {
+      width: 390px;
+      height: 844px;
+      background: #fff;
+      border-radius: 40px;
+      border: 8px solid #1a1a1a;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
       display: flex;
       flex-direction: column;
     }
 
-    /* Header & Navigation */
-    header {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem 1.5rem;
+    /* Status bar */
+    .status-bar {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 1.5rem;
-    }
-
-    .logo {
-      display: flex;
       align-items: center;
-      gap: 0.5rem;
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    .logo i {
-      font-size: 1.8rem;
-    }
-
-    .search-bar {
-      flex: 1;
-      max-width: 450px;
-      position: relative;
-    }
-
-    .search-bar input {
-      width: 100%;
-      padding: 0.75rem 1rem 0.75rem 2.8rem;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
-      background-color: #F1F5F9;
-      font-size: 0.95rem;
-      transition: var(--transition);
-    }
-
-    .search-bar input:focus {
-      outline: none;
-      background-color: #FFFFFF;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.15);
-    }
-
-    .search-bar i {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .btn {
-      padding: 0.65rem 1.25rem;
-      border-radius: var(--radius-md);
+      padding: 12px 24px 8px;
+      font-size: 14px;
       font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      border: none;
-      transition: var(--transition);
-      display: inline-flex;
+      flex-shrink: 0;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
+      padding: 8px 20px 16px;
+      border-bottom: 1px solid #f0f0f0;
+      flex-shrink: 0;
     }
 
-    .btn-primary {
-      background-color: var(--primary);
-      color: white;
+    .header-menu {
+      font-size: 22px;
+      cursor: pointer;
     }
 
-    .btn-primary:hover {
-      background-color: var(--primary-hover);
-      transform: translateY(-1px);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-    }
-
-    .btn-outline:hover {
-      background-color: #F1F5F9;
-    }
-
-    .cart-btn {
-      position: relative;
-      background: #F1F5F9;
-      color: var(--text-main);
-      padding: 0.65rem;
-      border-radius: 50%;
-      width: 42px;
-      height: 42px;
+    .header-logo {
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 8px;
+      font-size: 22px;
+      font-weight: 700;
+      font-style: italic;
+    }
+
+    .header-logo .icon {
+      font-size: 24px;
+    }
+
+    .header-cart {
+      position: relative;
+      font-size: 22px;
+      cursor: pointer;
     }
 
     .cart-badge {
       position: absolute;
-      top: -4px;
-      right: -4px;
-      background-color: var(--primary);
+      top: -6px;
+      right: -8px;
+      background: #1a1a1a;
       color: white;
-      font-size: 0.75rem;
-      font-weight: 700;
-      width: 20px;
-      height: 20px;
+      font-size: 10px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid #FFFFFF;
+      font-style: normal;
     }
 
-    /* Hero Banner */
-    .hero {
-      background: linear-gradient(135deg, #FF5722 0%, #FF8A65 100%);
-      color: white;
-      padding: 4rem 1.5rem;
-      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-      margin-bottom: 2rem;
-    }
-
-    .hero-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 3rem;
-    }
-
-    .hero-text h1 {
-      font-size: 2.8rem;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 1rem;
-    }
-
-    .hero-text p {
-      font-size: 1.15rem;
-      opacity: 0.9;
-      margin-bottom: 2rem;
-    }
-
-    .hero-image img {
-      width: 100%;
-      max-height: 360px;
-      object-fit: cover;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-lg);
-    }
-
-    /* Main Container */
-    main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem 4rem;
-      flex: 1;
-      width: 100%;
-    }
-
-    /* Categories Filter */
-    .section-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 1.25rem;
+    /* Search */
+    .search-bar {
+      margin: 16px 20px;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      background: #f8f8f8;
+      border: 1px solid #e8e8e8;
+      border-radius: 12px;
+      padding: 12px 16px;
+      gap: 10px;
+      flex-shrink: 0;
     }
 
+    .search-bar input {
+      border: none;
+      outline: none;
+      background: transparent;
+      flex: 1;
+      font-size: 15px;
+      color: #333;
+    }
+
+    .search-bar input::placeholder {
+      color: #999;
+    }
+
+    .search-bar .filter-icon {
+      font-size: 18px;
+      color: #666;
+    }
+
+    /* Categories */
     .categories {
       display: flex;
-      gap: 0.75rem;
+      gap: 10px;
+      padding: 0 20px 16px;
       overflow-x: auto;
-      padding-bottom: 0.5rem;
-      margin-bottom: 2.5rem;
-      scrollbar-width: thin;
+      flex-shrink: 0;
+    }
+
+    .categories::-webkit-scrollbar {
+      display: none;
     }
 
     .category-chip {
-      padding: 0.6rem 1.2rem;
-      background: white;
-      border: 1px solid var(--border-color);
-      border-radius: 99px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid #e0e0e0;
+      font-size: 13px;
+      font-weight: 500;
       white-space: nowrap;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
     }
 
-    .category-chip.active, .category-chip:hover {
-      background-color: var(--primary);
+    .category-chip:hover {
+      background: #f0f0f0;
+    }
+
+    .category-chip.active {
+      background: #1a1a1a;
       color: white;
-      border-color: var(--primary);
+      border-color: #1a1a1a;
     }
 
-    /* Restaurant Grid */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.75rem;
+    /* Section header */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 20px 12px;
+      flex-shrink: 0;
     }
 
-    .card {
-      background: var(--bg-card);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
+    .section-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .section-header .order-btn {
+      font-size: 13px;
+      color: #666;
+      cursor: pointer;
+    }
+
+    /* Restaurant list - scrollable area */
+    .restaurant-list {
+      padding: 0 20px;
       display: flex;
       flex-direction: column;
+      gap: 12px;
+      flex: 1;
+      overflow-y: auto;
+      padding-bottom: 16px;
     }
 
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
+    .restaurant-list::-webkit-scrollbar {
+      width: 4px;
     }
 
-    .card-img-wrapper {
-      position: relative;
-      height: 180px;
+    .restaurant-list::-webkit-scrollbar-thumb {
+      background: #ddd;
+      border-radius: 4px;
     }
 
-    .card-img-wrapper img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .card-badge {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 0.25rem 0.6rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--text-main);
+    .restaurant-card {
       display: flex;
       align-items: center;
-      gap: 0.25rem;
+      padding: 14px;
+      border: 1px solid #f0f0f0;
+      border-radius: 14px;
+      gap: 14px;
+      transition: all 0.2s;
+      animation: fadeIn 0.3s ease;
+      flex-shrink: 0;
     }
 
-    .card-content {
-      padding: 1.25rem;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .restaurant-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .restaurant-img {
+      width: 80px;
+      height: 80px;
+      background: #f0f0f0;
+      border-radius: 10px;
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .restaurant-img .placeholder {
+      font-size: 28px;
+    }
+
+    .restaurant-info {
       flex: 1;
     }
 
-    .card-title {
-      font-size: 1.1rem;
+    .restaurant-info h3 {
+      font-size: 15px;
       font-weight: 700;
-      margin-bottom: 0.25rem;
+      margin-bottom: 4px;
     }
 
-    .card-info {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-      display: flex;
+    .restaurant-info .meta {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    .restaurant-info .rating {
+      display: inline-flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 4px;
+      background: #f8f8f8;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
     }
 
-    .card-footer {
-      margin-top: auto;
+    .restaurant-right {
+      text-align: right;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 0.75rem;
-      border-top: 1px dashed var(--border-color);
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 20px;
     }
 
-    .price {
-      font-weight: 800;
-      font-size: 1.1rem;
-      color: var(--primary);
-    }
-
-    /* Modal Styling */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(4px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 1rem;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    .modal {
-      background: white;
-      width: 100%;
-      max-width: 420px;
-      border-radius: var(--radius-md);
-      padding: 2rem;
-      box-shadow: var(--shadow-lg);
-      position: relative;
-      animation: modalIn 0.25s ease-out;
-    }
-
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 1.25rem;
-      right: 1.25rem;
-      background: none;
-      border: none;
-      font-size: 1.2rem;
-      color: var(--text-muted);
+    .heart {
+      font-size: 18px;
+      color: #ccc;
       cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .heart:hover {
+      color: #e74c3c;
+    }
+
+    .delivery-info {
+      font-size: 11px;
+      color: #888;
+      text-align: right;
+    }
+
+    .delivery-info .price {
+      font-weight: 600;
+      color: #333;
+    }
+
+    /* Load more button */
+    .load-more-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin-top: 4px;
+      background: #f8f8f8;
+      border: 1px solid #e8e8e8;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .load-more-btn:hover {
+      background: #1a1a1a;
+      color: white;
+      border-color: #1a1a1a;
+    }
+
+    .load-more-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+      font-size: 14px;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      border: 3px solid #e0e0e0;
+      border-top-color: #1a1a1a;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin-bottom: 12px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Mini spinner for load more */
+    .mini-spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid #ccc;
+      border-top-color: #333;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    /* Empty state */
+    .empty {
+      text-align: center;
+      padding: 50px 20px;
+      color: #999;
+      font-size: 14px;
+    }
+
+    .empty .icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    /* Error */
+    .error {
+      text-align: center;
+      padding: 40px 20px;
+      color: #e74c3c;
+      font-size: 14px;
+    }
+
+    .error .icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    /* Add Restaurant Form */
+    .add-restaurant-section {
+      display: none;
+      padding: 20px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .add-restaurant-section.active {
+      display: block;
+    }
+
+    .add-restaurant-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
     }
 
     .form-group {
-      margin-bottom: 1.25rem;
+      margin-bottom: 14px;
     }
 
     .form-group label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 13px;
       font-weight: 600;
-      margin-bottom: 0.4rem;
+      color: #555;
+      margin-bottom: 6px;
     }
 
-    .form-group input {
+    .form-group input,
+    .form-group select {
       width: 100%;
-      padding: 0.75rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border-color);
-      font-size: 0.95rem;
-    }
-
-    .form-group input:focus {
+      padding: 12px 14px;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 14px;
       outline: none;
-      border-color: var(--primary);
+      transition: border-color 0.2s;
+      background: #f8f8f8;
     }
 
-    /* Toast Notification */
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      background: var(--secondary);
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #1a1a1a;
+      background: #fff;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: #1a1a1a;
       color: white;
-      padding: 0.8rem 1.25rem;
-      border-radius: var(--radius-sm);
-      box-shadow: var(--shadow-lg);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.9rem;
-      z-index: 2000;
-      transform: translateY(150%);
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      margin-top: 8px;
     }
 
-    .toast.show {
-      transform: translateY(0);
+    .submit-btn:hover {
+      opacity: 0.85;
     }
 
-    /* Footer */
-    footer {
-      background: var(--secondary);
-      color: white;
-      padding: 3rem 1.5rem 1.5rem;
-      margin-top: auto;
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
-    .footer-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .footer-brand h3 {
-      color: var(--primary);
-      font-size: 1.4rem;
-      font-weight: 800;
-      margin-bottom: 0.75rem;
-    }
-
-    .footer-brand p {
-      color: #94A3B8;
-      font-size: 0.9rem;
-    }
-
-    .footer-bottom {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding-top: 1.5rem;
-      border-top: 1px solid #334155;
+    .form-message {
       text-align: center;
-      font-size: 0.85rem;
-      color: #94A3B8;
+      padding: 10px;
+      margin-top: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      display: none;
     }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .hero-container {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      .hero-text h1 {
-        font-size: 2rem;
-      }
-      .hero-image {
-        display: none;
-      }
-      .search-bar {
-        display: none;
-      }
+    .form-message.success {
+      display: block;
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .form-message.error {
+      display: block;
+      background: #fbe9e7;
+      color: #c62828;
+    }
+
+    /* Bottom nav */
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0;
+      border-top: 1px solid #f0f0f0;
+      flex-shrink: 0;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      color: #999;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      color: #1a1a1a;
+    }
+
+    .nav-item .icon {
+      font-size: 20px;
     }
   </style>
 </head>
 <body>
-
-  <!-- Header -->
-  <header>
-    <div class="nav-container">
-      <a href="#" class="logo">
-        <i class="fa-solid fa-utensils"></i> Easy Food
-      </a>
-
-      <div class="search-bar">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="searchInput" placeholder="Buscar por restaurantes ou pratos...">
-      </div>
-
-      <div class="nav-actions">
-        <button class="cart-btn" onclick="toggleCart()" title="Carrinho">
-          <i class="fa-solid fa-basket-shopping"></i>
-          <span class="cart-badge" id="cartCount">0</span>
-        </button>
-        <button class="btn btn-outline" id="authBtn" onclick="openAuthModal()">
-          <i class="fa-regular fa-user"></i> Entrar
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero Banner -->
-  <section class="hero">
-    <div class="hero-container">
-      <div class="hero-text">
-        <h1>Sua comida favorita, entregue com facilidade.</h1>
-        <p>Descubra os melhores restaurantes da sua região com entregas rápidas e ofertas exclusivas todos os dias.</p>
-        <button class="btn btn-primary" onclick="scrollToMenu()" style="background: white; color: var(--primary); font-size: 1rem; padding: 0.8rem 1.5rem;">
-          <i class="fa-solid fa-fire"></i> Ver Cardápio
-        </button>
-      </div>
-      <div class="hero-image">
-        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Comida Deliciosa">
-      </div>
-    </div>
-  </section>
-
-  <!-- Conteúdo Principal -->
-  <main id="menuSection">
-    <h2 class="section-title"><i class="fa-solid fa-layer-group" style="color: var(--primary);"></i> Categorias Populares</h2>
-    
-    <div class="categories">
-      <button class="category-chip active" onclick="filterCategory('todos', this)">
-        <i class="fa-solid fa-border-all"></i> Todos
-      </button>
-      <button class="category-chip" onclick="filterCategory('hamburguer', this)">
-        <i class="fa-solid fa-burger"></i> Hambúrgueres
-      </button>
-      <button class="category-chip" onclick="filterCategory('pizza', this)">
-        <i class="fa-solid fa-pizza-slice"></i> Pizzas
-      </button>
-      <button class="category-chip" onclick="filterCategory('japonesa', this)">
-        <i class="fa-solid fa-fish"></i> Japonesa
-      </button>
-      <button class="category-chip" onclick="filterCategory('sobremesas', this)">
-        <i class="fa-solid fa-ice-cream"></i> Sobremesas
-      </button>
-      <button class="category-chip" onclick="filterCategory('bebidas', this)">
-        <i class="fa-solid fa-wine-glass"></i> Bebidas
-      </button>
+  <div class="phone">
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>📶 🔋</span>
     </div>
 
-    <h2 class="section-title"><i class="fa-solid fa-store" style="color: var(--primary);"></i> Restaurantes & Opções</h2>
-    
-    <div class="grid" id="restaurantGrid">
-      <!-- Cards serão carregados dinamicamente ou com fallback -->
+    <!-- Header -->
+    <div class="header">
+      <span class="header-menu">☰</span>
+      <div class="header-logo">
+        <span class="icon">🍴</span>
+        <span>EasyFood</span>
+      </div>
+      <span class="header-cart">
+        🛒
+        <i class="cart-badge">2</i>
+      </span>
     </div>
-  </main>
 
-  <!-- Modal de Login/Autenticação -->
-  <div class="modal-overlay" id="authModal">
-    <div class="modal">
-      <button class="modal-close" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
-      <h2 style="margin-bottom: 0.5rem; font-weight: 800;">Bem-vindo de volta!</h2>
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Acesse sua conta do Easy Food</p>
-      
-      <form id="loginForm" onsubmit="handleLogin(event)">
+    <!-- Search -->
+    <div class="search-bar">
+      <span>🔍</span>
+      <input type="text" placeholder="Buscar restaurantes" disabled>
+      <span class="filter-icon">⚙️</span>
+    </div>
+
+    <!-- Categories -->
+    <div class="categories" id="categories">
+      <div class="category-chip active" data-category="Todos">🍽️ Todos</div>
+      <div class="category-chip" data-category="Burger">🍔 Burger</div>
+      <div class="category-chip" data-category="Pizza">🍕 Pizza</div>
+      <div class="category-chip" data-category="Sushi">🍣 Sushi</div>
+      <div class="category-chip" data-category="Saudável">🥗 Saudável</div>
+    </div>
+
+    <!-- Section header -->
+    <div class="section-header">
+      <h2>Restaurantes</h2>
+      <span class="order-btn">Ordenar ▾</span>
+    </div>
+
+    <!-- Restaurant list (scrollable) -->
+    <div class="restaurant-list" id="restaurant-list">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>Carregando restaurantes...</p>
+      </div>
+    </div>
+
+    <!-- Add Restaurant Form (hidden by default) -->
+    <div class="add-restaurant-section" id="add-restaurant-section">
+      <h2>➕ Cadastrar Restaurante</h2>
+      <form id="add-restaurant-form">
         <div class="form-group">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" required placeholder="seu@email.com">
+          <label for="restaurant-name">Nome do Restaurante</label>
+          <input type="text" id="restaurant-name" placeholder="Ex: Taco Loco" required>
         </div>
         <div class="form-group">
-          <label for="password">Senha</label>
-          <input type="password" id="password" required placeholder="••••••••">
+          <label for="restaurant-category">Categoria</label>
+          <select id="restaurant-category" required>
+            <option value="">Selecione uma categoria</option>
+            <option value="Burger">🍔 Burger</option>
+            <option value="Pizza">🍕 Pizza</option>
+            <option value="Sushi">🍣 Sushi</option>
+            <option value="Saudável">🥗 Saudável</option>
+            <option value="Mexicana">🌮 Mexicana</option>
+            <option value="Brasileira">🍛 Brasileira</option>
+            <option value="Japonesa">🍱 Japonesa</option>
+            <option value="Italiana">🍝 Italiana</option>
+          </select>
         </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
-          <i class="fa-solid fa-right-to-bracket"></i> Entrar
-        </button>
+        <div class="form-group">
+          <label for="restaurant-rating">Avaliação (0 a 5)</label>
+          <input type="number" id="restaurant-rating" placeholder="Ex: 4.3" min="0" max="5" step="0.1" required>
+        </div>
+        <button type="submit" class="submit-btn" id="submit-btn">Cadastrar Restaurante</button>
       </form>
+      <div class="form-message" id="form-message"></div>
+    </div>
+
+    <!-- Bottom nav -->
+    <div class="bottom-nav">
+      <div class="nav-item active" data-view="home" onclick="switchView('home')">
+        <span class="icon">🏠</span>
+        <span>Início</span>
+      </div>
+      <div class="nav-item" data-view="search" onclick="switchView('home')">
+        <span class="icon">🔍</span>
+        <span>Buscar</span>
+      </div>
+      <div class="nav-item" data-view="add" onclick="switchView('add')">
+        <span class="icon">➕</span>
+        <span>Cadastrar</span>
+      </div>
+      <div class="nav-item" data-view="favorites">
+        <span class="icon">❤️</span>
+        <span>Favoritos</span>
+      </div>
+      <div class="nav-item" data-view="profile">
+        <span class="icon">👤</span>
+        <span>Perfil</span>
+      </div>
     </div>
   </div>
 
-  <!-- Toast Notification -->
-  <div class="toast" id="toast">
-    <i class="fa-solid fa-circle-check" style="color: #4ADE80;"></i>
-    <span id="toastMessage">Item adicionado com sucesso!</span>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-container">
-      <div class="footer-brand">
-        3<h3>Easy Food</h3>
-        <p>Facilitando a sua alimentação diária com tecnologia, rapidez e os melhores sabores da cidade.</p>
-      </div>
-      <div>
-        <h4 style="margin-bottom: 1rem;">Navegação</h4>
-        <p style="color: #94A3B8; font-size: 0.9rem; line-height: 2;"><a href="#" style="color: inherit; text-decoration: none;">Início</a></p>
-        <p style="color: #94A3B8; font-size: 0.9rem; line-height: 2;"><a href="#" style="color: inherit; text-decoration: none;">Restaurantes</a></p>
-        <p style="color: #94A3B8; font-size: 0.9rem; line-height: 2;"><a href="#" style="color: inherit; text-decoration: none;">Cadastrar Restaurante</a></p>
-      </div>
-      <div>
-        <h4 style="margin-bottom: 1rem;">Suporte</h4>
-        <p style="color: #94A3B8; font-size: 0.9rem; line-height: 2;">Central de Ajuda</p>
-        <p style="color: #94A3B8; font-size: 0.9rem; line-height: 2;">Termos de Uso</p>
-        <p style="color: #94A3B8; font-size: 0.9rem; line-height: 2;">Privacidade</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      &copy; 2026 Easy Food. Todos os direitos reservados.
-    </div>
-  </footer>
-
-  <!-- Script Interativo & Integração de API -->
   <script>
-    let cartCount = 0;
-    
-    // Dados de demonstração (fallback caso a API ainda não tenha dados cadastrados)
-    const mockData = [
-      {
-        id: 1,
-        name: "Burguer Craft Studio",
-        category: "hamburguer",
-        rating: "4.9",
-        deliveryTime: "25-35 min",
-        price: 32.90,
-        image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        id: 2,
-        name: "Bella Napoli Pizzaria",
-        category: "pizza",
-        rating: "4.8",
-        deliveryTime: "30-45 min",
-        price: 49.90,
-        image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        id: 3,
-        name: "Sakura Sushi Bar",
-        category: "japonesa",
-        rating: "4.9",
-        deliveryTime: "40-50 min",
-        price: 68.00,
-        image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        id: 4,
-        name: "Sweet Dreams Doceria",
-        category: "sobremesas",
-        rating: "4.7",
-        deliveryTime: "15-25 min",
-        price: 18.50,
-        image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80"
-      }
-    ];
+    // =============================================================
+    // EasyFood - Front-end
+    // Consome a API com filtro por categoria e paginação
+    // =============================================================
 
-    // Carregar restaurantes da API Easy Food ou Fallback
+    const API_URL = "http://localhost:3000/restaurants";
+
+    // Quantos restaurantes exibir por vez
+    const PAGE_SIZE = 3;
+
+    // Estado da aplicação
+    let allRestaurants = [];
+    let filteredRestaurants = [];
+    let selectedCategory = "Todos";
+    let currentPage = 0;
+
+    // Emojis por categoria
+    const categoryEmoji = {
+      "Pizza": "🍕",
+      "Burger": "🍔",
+      "Sushi": "🍣",
+      "Saudável": "🥗"
+    };
+
+    // Preços fixos por restaurante (para não mudar no reload)
+    const deliveryPrices = {};
+
+    function getDeliveryPrice(id) {
+      if (!deliveryPrices[id]) {
+        deliveryPrices[id] = (Math.random() * 5 + 3).toFixed(2).replace(".", ",");
+      }
+      return deliveryPrices[id];
+    }
+
+    // ----- LOADING -----
+
+    function showLoading() {
+      const list = document.getElementById("restaurant-list");
+      list.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Carregando restaurantes...</p>
+        </div>
+      `;
+    }
+
+    // ----- FETCH -----
+
     async function fetchRestaurants() {
-      const grid = document.getElementById('restaurantGrid');
-      grid.innerHTML = '';
+      showLoading();
 
       try {
-        const response = await fetch('/api/restaurants');
-        if (response.ok) {
-          const data = await response.json();
-          if (Array.isArray(data) && data.length > 0) {
-            renderCards(data);
-            return;
-          }
-        }
-      } catch (err) {
-        console.warn('API não respondendo no momento, carregando dados de demonstração.');
-      }
+        const response = await fetch(API_URL);
+        const restaurants = await response.json();
+        allRestaurants = restaurants;
 
-      renderCards(mockData);
+        setTimeout(() => {
+          filterAndRender();
+        }, 500);
+
+      } catch (error) {
+        showError();
+      }
     }
 
-    function renderCards(items) {
-      const grid = document.getElementById('restaurantGrid');
-      grid.innerHTML = items.map(item => `
-        <div class="card" data-category="${item.category || 'outros'}">
-          <div class="card-img-wrapper">
-            <img src="${item.image || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80'}" alt="${item.name}">
-            <div class="card-badge"><i class="fa-solid fa-star" style="color: var(--accent);"></i> ${item.rating || '4.5'}</div>
+    // ----- FILTRO + PAGINAÇÃO -----
+
+    function filterAndRender() {
+      showLoading();
+
+      setTimeout(() => {
+        // Filtra pela categoria
+        if (selectedCategory === "Todos") {
+          filteredRestaurants = [...allRestaurants];
+        } else {
+          filteredRestaurants = allRestaurants.filter(r => r.category === selectedCategory);
+        }
+
+        // Reseta a página
+        currentPage = 0;
+
+        // Renderiza a primeira página
+        renderPage();
+      }, 300);
+    }
+
+    function renderPage() {
+      const list = document.getElementById("restaurant-list");
+      const start = 0;
+      const end = (currentPage + 1) * PAGE_SIZE;
+      const visible = filteredRestaurants.slice(start, end);
+      const hasMore = end < filteredRestaurants.length;
+
+      if (visible.length === 0) {
+        list.innerHTML = `
+          <div class="empty">
+            <div class="icon">🔍</div>
+            <p>Nenhum restaurante encontrado<br>nessa categoria.</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title">${item.name}</h3>
-            <div class="card-info">
-              <span><i class="fa-regular fa-clock"></i> ${item.deliveryTime || '20-30 min'}</span>
-              <span>•</span>
-              <span><i class="fa-solid fa-motorcycle"></i> Entrega Grátis</span>
-            </div>
-            <div class="card-footer">
-              <span class="price">R$ ${(item.price || 29.90).toFixed(2).replace('.', ',')}</span>
-              <button class="btn btn-primary" onclick="addToCart('${item.name}')">
-                <i class="fa-solid fa-plus"></i> Adicionar
-              </button>
+        `;
+        return;
+      }
+
+      // Monta os cards
+      let html = visible.map((restaurant, index) => `
+        <div class="restaurant-card" style="animation-delay: ${index * 0.05}s">
+          <div class="restaurant-img">
+            <span class="placeholder">${categoryEmoji[restaurant.category] || "🏪"}</span>
+          </div>
+          <div class="restaurant-info">
+            <h3>${restaurant.name}</h3>
+            <div class="meta">${restaurant.category} • 20-30 min</div>
+            <div class="rating">★ ${restaurant.rating}</div>
+          </div>
+          <div class="restaurant-right">
+            <span class="heart">♡</span>
+            <div class="delivery-info">
+              Entrega<br>
+              <span class="price">R$ ${getDeliveryPrice(restaurant.id)}</span>
             </div>
           </div>
         </div>
-      `).join('');
+      `).join("");
+
+      // Botão "Carregar mais" se tiver mais resultados
+      if (hasMore) {
+        const remaining = filteredRestaurants.length - end;
+        html += `
+          <button class="load-more-btn" id="load-more-btn" onclick="loadMore()">
+            Carregar mais (${remaining} restante${remaining > 1 ? "s" : ""})
+          </button>
+        `;
+      }
+
+      list.innerHTML = html;
     }
 
-    function addToCart(name) {
-      cartCount++;
-      document.getElementById('cartCount').textContent = cartCount;
-      showToast(`" ${name} " adicionado ao carrinho!`);
+    // ----- CARREGAR MAIS -----
+
+    function loadMore() {
+      const btn = document.getElementById("load-more-btn");
+      btn.disabled = true;
+      btn.innerHTML = '<span class="mini-spinner"></span> Carregando...';
+
+      setTimeout(() => {
+        currentPage++;
+        renderPage();
+
+        // Scroll suave até o final da lista
+        const list = document.getElementById("restaurant-list");
+        list.scrollTo({ top: list.scrollHeight, behavior: "smooth" });
+      }, 400);
     }
 
-    function filterCategory(category, element) {
-      document.querySelectorAll('.category-chip').forEach(chip => chip.classList.remove('active'));
-      element.classList.add('active');
+    // ----- ERRO -----
 
-      const cards = document.querySelectorAll('.card');
-      cards.forEach(card => {
-        if (category === 'todos' || card.dataset.category === category) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
+    function showError() {
+      const list = document.getElementById("restaurant-list");
+      list.innerHTML = `
+        <div class="error">
+          <div class="icon">⚠️</div>
+          <p><strong>Servidor offline</strong></p>
+          <p style="margin-top:8px; color:#999;">
+            Rode no terminal:<br>
+            <code>node server.js</code>
+          </p>
+        </div>
+      `;
+    }
+
+    // ----- EVENTOS DOS FILTROS -----
+
+    const chips = document.querySelectorAll(".category-chip");
+
+    chips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        chips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        selectedCategory = chip.dataset.category;
+        filterAndRender();
+      });
+    });
+
+    // ----- INICIALIZA -----
+
+    fetchRestaurants();
+
+    // =============================================================
+    // Navegação entre views (Home / Cadastrar)
+    // =============================================================
+
+    function switchView(view) {
+      const homeElements = document.querySelectorAll('.search-bar, .categories, .section-header, .restaurant-list');
+      const addSection = document.getElementById('add-restaurant-section');
+      const navItems = document.querySelectorAll('.nav-item');
+
+      if (view === 'add') {
+        homeElements.forEach(el => el.style.display = 'none');
+        addSection.classList.add('active');
+      } else {
+        homeElements.forEach(el => el.style.display = '');
+        addSection.classList.remove('active');
+      }
+
+      // Atualiza nav ativo
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.view === view) {
+          item.classList.add('active');
         }
       });
     }
 
-    function openAuthModal() {
-      document.getElementById('authModal').classList.add('active');
-    }
+    // =============================================================
+    // Cadastro de Restaurante - POST /restaurants
+    // =============================================================
 
-    function closeAuthModal() {
-      document.getElementById('authModal').classList.remove('active');
-    }
+    const addForm = document.getElementById('add-restaurant-form');
+    const formMessage = document.getElementById('form-message');
 
-    async function handleLogin(e) {
+    addForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+
+      const name = document.getElementById('restaurant-name').value.trim();
+      const category = document.getElementById('restaurant-category').value;
+      const rating = parseFloat(document.getElementById('restaurant-rating').value);
+
+      if (!name || !category || isNaN(rating)) {
+        showFormMessage('Preencha todos os campos corretamente.', 'error');
+        return;
+      }
+
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Cadastrando...';
 
       try {
-        const response = await fetch('/api/auth/login', {
+        const response = await fetch(API_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, category, rating })
         });
 
-        if (response.ok) {
-          showToast('Login realizado com sucesso!');
-          closeAuthModal();
-        } else {
-          showToast('Credenciais inválidas. Tente novamente.');
+        if (!response.ok) {
+          throw new Error('Erro ao cadastrar restaurante');
         }
-      } catch (err) {
-        showToast('Login efetuado (modo simulação).');
-        closeAuthModal();
+
+        const newRestaurant = await response.json();
+        showFormMessage(`✅ "${newRestaurant.name}" cadastrado com sucesso!`, 'success');
+
+        // Limpa o formulário
+        addForm.reset();
+
+        // Atualiza a lista de restaurantes
+        allRestaurants.push(newRestaurant);
+        filterAndRender();
+
+      } catch (error) {
+        showFormMessage('❌ Erro ao cadastrar. Verifique se o servidor está rodando.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Cadastrar Restaurante';
       }
-    }
+    });
 
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      document.getElementById('toastMessage').textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
+    function showFormMessage(text, type) {
+      formMessage.textContent = text;
+      formMessage.className = 'form-message ' + type;
+      setTimeout(() => {
+        formMessage.className = 'form-message';
+      }, 4000);
     }
-
-    function scrollToMenu() {
-      document.getElementById('menuSection').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // Inicialização
-    document.addEventListener('DOMContentLoaded', fetchRestaurants);
   </script>
 </body>
 </html>
