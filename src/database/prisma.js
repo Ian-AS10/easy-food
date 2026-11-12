@@ -142,6 +142,10 @@ const mockPrisma = {
       if (args?.where?.restaurantId) {
         list = list.filter((d) => d.restaurantId === Number(args.where.restaurantId));
       }
+      if (args?.orderBy?.id) {
+        const direction = args.orderBy.id === "desc" ? -1 : 1;
+        list.sort((a, b) => (a.id - b.id) * direction);
+      }
       return list;
     },
     findUnique: async ({ where, include }) => {
