@@ -68,4 +68,25 @@ async function uploadAvatar(req, res) {
   }
 }
 
-module.exports = { register, login, uploadAvatar };
+async function removeAvatar(req, res) {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: "Usuário não autenticado" });
+    }
+
+    const updatedUser = await authService.removeAvatar(userId);
+    return res.status(200).json({
+      message: "Foto de perfil removida com sucesso",
+      user: updatedUser
+    });
+  } catch (error) {
+    console.error("Erro ao remover avatar:", error.message);
+    const status = error.statusCode || 500;
+    return res.status(status).json({
+      error: status === 500 ? "Erro interno do servidor ao remover avatar" : error.message
+    });
+  }
+}
+
+module.exports = { register, login, uploadAvatar, removeAvatar };

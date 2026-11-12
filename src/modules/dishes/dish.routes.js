@@ -9,6 +9,8 @@ router.post("/restaurants/:restaurantId/dishes", authenticate, controller.create
 
 router.get("/restaurants/:restaurantId/dishes", controller.list);
 
+router.get("/dishes", controller.listAll);
+
 router.get("/dishes/:dishId", controller.getById);
 
 router.put("/dishes/:dishId", authenticate, controller.update);
@@ -17,5 +19,6 @@ router.delete("/dishes/:dishId", authenticate, controller.remove);
 
 // Upload e otimização de imagem do prato
 router.post("/dishes/:dishId/image", authenticate, uploadSingle("image"), controller.uploadImage);
+router.delete("/dishes/:dishId/image", authenticate, controller.removeImage);
 
 module.exports = router;

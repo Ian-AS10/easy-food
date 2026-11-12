@@ -12,6 +12,7 @@ router.post("/login", controller.login);
 
 // Upload e atualização da foto de perfil do usuário autenticado
 router.post("/me/image", authenticate, uploadSingle("image"), controller.uploadAvatar);
+router.delete("/me/image", authenticate, controller.removeAvatar);
 
 // Rota protegida: busca os dados completos do usuário no banco
 router.get("/me", authenticate, async (req, res) => {

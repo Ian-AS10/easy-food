@@ -29,4 +29,62 @@ async function create(req, res) {
   }
 }
 
-module.exports = { list, create };
+async function uploadImage(req, res) {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "Nenhum arquivo enviado. Por favor, envie uma imagem." });
+    }
+
+    const restaurant = await restaurantService.uploadRestaurantImage(
+      req.params.restaurantId,
+      req.file.buffer,
+      req.user.id
+    );
+
+    return res.status(200).json({
+      message: "Imagem do restaurante atualizada com sucesso",
+      restaurant
+    });
+  } catch (error) {
+    const status = error.statusCode || 500;
+    console.error("Erro ao enviar imagem do restaurante:", error.message);
+    return res.status(status).json({
+      error: status === 500 ? "Erro interno do servidor" : error.message
+    });
+  }
+}
+
+async function removeImage(req, res) {
+  try {
+    const restaurant = await restaurantService.removeRestaurantImage(
+      req.params.restaurantId,
+      req.user.id
+    );
+
+    return res.status(200).json({
+      message: "Imagem do restaurante removida com sucesso",
+      restaurant
+    });
+  } catch (error) {
+    const status = error.statusCode || 500;
+    console.error("Erro ao remover imagem do restaurante:", error.message);
+    return res.status(status).json({
+      error: status === 500 ? "Erro interno do servidor" : error.message
+    });
+  }
+}
+
+async function remove(req, res) {
+  try {
+    await restaurantService.deleteRestaurant(req.params.restaurantId, req.user.id);
+    return res.status(204).send();
+  } catch (error) {
+    const status = error.statusCode || 500;
+    console.error("Erro ao excluir restaurante:", error.message);
+    return res.status(status).json({
+      error: status === 500 ? "Erro interno do servidor" : error.message
+    });
+  }
+}
+
+module.exports = { list, create, uploadImage, removeImage, remove };

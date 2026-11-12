@@ -14,12 +14,12 @@ let inMemoryUsers = [
 ];
 
 let inMemoryRestaurants = [
-  { id: 1, name: "Burger Craft", category: "Burger", rating: 4.8, ownerId: 1 },
-  { id: 2, name: "La Bella Pizza", category: "Pizza", rating: 4.7, ownerId: 1 },
-  { id: 3, name: "Kyoto Sushi Bar", category: "Sushi", rating: 4.9, ownerId: 1 },
-  { id: 4, name: "Green & Fresh Salad", category: "Saudável", rating: 4.6, ownerId: 1 },
-  { id: 5, name: "Smash House Burger", category: "Burger", rating: 4.5, ownerId: 1 },
-  { id: 6, name: "Napoletana Forneria", category: "Pizza", rating: 4.8, ownerId: 1 }
+  { id: 1, name: "Burger Craft", category: "Burger", rating: 4.8, imageUrl: "", ownerId: 1 },
+  { id: 2, name: "La Bella Pizza", category: "Pizza", rating: 4.7, imageUrl: "", ownerId: 1 },
+  { id: 3, name: "Kyoto Sushi Bar", category: "Sushi", rating: 4.9, imageUrl: "", ownerId: 1 },
+  { id: 4, name: "Green & Fresh Salad", category: "Saudável", rating: 4.6, imageUrl: "", ownerId: 1 },
+  { id: 5, name: "Smash House Burger", category: "Burger", rating: 4.5, imageUrl: "", ownerId: 1 },
+  { id: 6, name: "Napoletana Forneria", category: "Pizza", rating: 4.8, imageUrl: "", ownerId: 1 }
 ];
 
 let inMemoryDishes = [
@@ -58,6 +58,24 @@ let inMemoryDishes = [
     imageUrl: "",
     description: "Mix de folhas verdes, quinoa real, tomate grape, grão-de-bico e molho tahine",
     restaurantId: 4
+  },
+  {
+    id: 5,
+    name: "Double Cheddar Melt",
+    category: "Burger",
+    price: "38.90",
+    imageUrl: "",
+    description: "Dois smash burgers 110g, creme de cheddar inglês e cebola caramelizada no pão brioche",
+    restaurantId: 5
+  },
+  {
+    id: 6,
+    name: "Pizza Calabresa Artesanal",
+    category: "Pizza",
+    price: "54.00",
+    imageUrl: "",
+    description: "Massa de longa fermentação, molho de tomate italiano, calabresa curada e cebola roxa",
+    restaurantId: 6
   }
 ];
 
@@ -90,10 +108,29 @@ const mockPrisma = {
         name: data.name,
         category: data.category || null,
         rating: data.rating !== undefined ? Number(data.rating) : 0,
+        imageUrl: data.imageUrl || "",
         ownerId: data.ownerId || 1
       };
       inMemoryRestaurants.push(newRest);
       return { ...newRest };
+    },
+    update: async ({ where, data }) => {
+      const idx = inMemoryRestaurants.findIndex((r) => r.id === Number(where.id));
+      if (idx === -1) {
+        const err = new Error("Restaurante não encontrado");
+        err.statusCode = 404;
+        throw err;
+      }
+      inMemoryRestaurants[idx] = { ...inMemoryRestaurants[idx], ...data };
+      return { ...inMemoryRestaurants[idx] };
+    },
+    delete: async ({ where }) => {
+      const idx = inMemoryRestaurants.findIndex((r) => r.id === Number(where.id));
+      if (idx !== -1) {
+        const [deleted] = inMemoryRestaurants.splice(idx, 1);
+        return deleted;
+      }
+      return {};
     }
   },
 
@@ -142,10 +179,6 @@ const mockPrisma = {
       if (args?.where?.restaurantId) {
         list = list.filter((d) => d.restaurantId === Number(args.where.restaurantId));
       }
-      if (args?.orderBy?.id) {
-        const direction = args.orderBy.id === "desc" ? -1 : 1;
-        list.sort((a, b) => (a.id - b.id) * direction);
-      }
       return list;
     },
     findUnique: async ({ where, include }) => {
@@ -191,6 +224,14 @@ const mockPrisma = {
         return deleted;
       }
       return {};
+    },
+    deleteMany: async ({ where }) => {
+      if (where?.restaurantId) {
+        const before = inMemoryDishes.length;
+        inMemoryDishes = inMemoryDishes.filter((d) => d.restaurantId !== Number(where.restaurantId));
+        return { count: before - inMemoryDishes.length };
+      }
+      return { count: 0 };
     }
   },
 

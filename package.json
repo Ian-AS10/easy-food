@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node server.js",
     "build": "echo 'Build successful'",
-    "lint": "node --check server.js src/app.js",
+    "lint": "node --check server.js src/app.js src/database/*.js src/modules/*/*.js",
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -159,12 +159,35 @@ async function uploadDishImage(dishId, fileBuffer, userId) {
   });
 }
 
+async function listAllDishes() {
+  return prisma.dish.findMany({
+    orderBy: { id: "asc" }
+  });
+}
+
+async function removeDishImage(dishId, userId) {
+  const dish = await getDishWithRestaurant(dishId);
+
+  ensureOwnership(dish.restaurant, userId);
+
+  if (dish.imageUrl) {
+    await imageService.deleteImage(dish.imageUrl);
+  }
+
+  return prisma.dish.update({
+    where: { id: dish.id },
+    data: { imageUrl: "" }
+  });
+}
+
 module.exports = {
   createDish,
   listDishes,
+  listAllDishes,
   getDish,
   updateDish,
   deleteDish,
   uploadDishImage,
+  removeDishImage,
   parseId
 };

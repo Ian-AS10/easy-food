@@ -96,4 +96,26 @@ async function uploadAvatar(userId, fileBuffer) {
   return formatUser(updated);
 }
 
-module.exports = { register, login, getById, uploadAvatar };
+async function removeAvatar(userId) {
+  const id = Number(userId);
+  const user = await prisma.user.findUnique({ where: { id } });
+
+  if (!user) {
+    const error = new Error("Usuário não encontrado");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (user.avatarUrl) {
+    await imageService.deleteImage(user.avatarUrl);
+  }
+
+  const updated = await prisma.user.update({
+    where: { id },
+    data: { avatarUrl: null }
+  });
+
+  return formatUser(updated);
+}
+
+module.exports = { register, login, getById, uploadAvatar, removeAvatar };

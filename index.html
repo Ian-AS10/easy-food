@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2E3BE6">
 <title>EasyFood</title>
+<meta name="description" content="Aplicativo de delivery e gerenciamento de restaurantes EasyFood com catálogo, cadastro e autenticação.">
+<meta property="og:title" content="EasyFood">
+<meta property="og:description" content="Aplicativo de delivery e gerenciamento de restaurantes EasyFood com catálogo, cadastro e autenticação.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
@@ -50,16 +53,18 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 .sort{font-size:13px;font-weight:600;color:var(--brand);padding:6px 0}
 .list{padding:0 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:14px 12px}
 .list>.state,.list>.more,.list>.skel.wide{grid-column:1/-1}
-.card{background:var(--card);border-radius:26px 26px 26px 6px;overflow:hidden;position:relative;display:flex;flex-direction:column;animation:in .35s ease both}
+.card{background:var(--card);border-radius:26px 26px 26px 6px;overflow:hidden;position:relative;display:flex;flex-direction:column;animation:in .35s ease both;cursor:pointer;transition:transform .15s ease}
+.card:active{transform:scale(.98)}
 @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.thumb{position:relative;height:118px;display:grid;place-items:center;font-size:54px}
+.thumb{position:relative;height:118px;display:grid;place-items:center;font-size:54px;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .info{padding:12px 14px 14px;display:flex;flex-direction:column;gap:2px}
 .info h3{font-size:16px;font-weight:800;letter-spacing:-.02em;line-height:1.15;overflow-wrap:anywhere}
 .tag{font-size:13px;color:var(--muted)}
 .facts{display:flex;flex-direction:column;gap:2px;margin-top:8px;font-size:12px;font-weight:600}
-.rate{position:absolute;left:10px;bottom:10px;background:var(--brand);color:#fff;border-radius:10px;padding:3px 9px;font-size:12px;font-weight:800}
+.rate{position:absolute;left:10px;bottom:10px;background:var(--brand);color:#fff;border-radius:10px;padding:3px 9px;font-size:12px;font-weight:800;z-index:2}
 .fee{color:var(--brand)}
-.fav{position:absolute;top:8px;right:8px;width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;color:#B3B8D6}
+.fav{position:absolute;top:8px;right:8px;width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;color:#B3B8D6;z-index:2}
 .fav svg{width:18px;height:18px}
 .fav[aria-pressed=true]{color:var(--heart)}
 .fav[aria-pressed=true] svg{stroke:#E0A400}
@@ -105,6 +110,95 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 .nav i{width:44px;height:30px;border-radius:15px;display:grid;place-items:center}
 .nav button[aria-current=page]{color:#fff}
 .nav button[aria-current=page] i{background:var(--brand)}
+/* Restaurant detail & dishes */
+.detail-view{display:none}
+.detail-view.active{display:block}
+.rest-hero{background:var(--brand);color:#fff;padding:max(16px,env(safe-area-inset-top)) 20px 24px;border-radius:0 0 44px 0}
+.rest-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.icon-btn{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;display:grid;place-items:center}
+.rest-actions{display:flex;align-items:center;gap:8px}
+.rest-actions .fav-top[aria-pressed=true]{color:var(--heart)}
+.rest-actions .fav-top[aria-pressed=true] svg{fill:currentColor;stroke:#E0A400}
+.rest-head{display:flex;align-items:center;gap:14px}
+.rest-em{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;font-size:34px;flex-shrink:0;overflow:hidden}
+.rest-em img{width:100%;height:100%;object-fit:cover;display:block}
+.btn-soft{width:100%;height:44px;border-radius:14px;background:var(--bg);border:2px dashed var(--line);color:var(--ink);font-weight:700;font-size:14px}
+.rest-head h2{font-size:24px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.rest-sub{font-size:13px;opacity:.88;margin-top:4px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rest-pill{background:rgba(255,255,255,.2);padding:2px 8px;border-radius:8px;font-weight:700;font-size:12px}
+.menu-wrap{padding:20px 20px 28px}
+.menu-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.menu-head h3{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.menu-add-btn{font-size:13px;font-weight:700;color:var(--brand);background:#E3E6FA;padding:7px 12px;border-radius:12px}
+.dish-card{background:var(--card);border-radius:22px;padding:12px;display:flex;gap:12px;margin-bottom:12px;box-shadow:0 4px 14px rgba(16,20,55,.04)}
+.dish-photo{width:94px;height:94px;border-radius:16px;background:var(--bg);display:grid;place-items:center;font-size:36px;overflow:hidden;flex-shrink:0;position:relative;cursor:pointer}
+.dish-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.dish-zoom{position:absolute;right:6px;bottom:6px;width:24px;height:24px;border-radius:8px;background:rgba(16,20,55,.72);color:#fff;display:grid;place-items:center}
+.dish-zoom svg{width:13px;height:13px}
+.dish-body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between}
+.dish-title{font-size:15px;font-weight:800;line-height:1.2}
+.dish-desc{font-size:12px;color:var(--muted);line-height:1.35;margin:4px 0 8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.dish-foot{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.dish-price{font-size:15px;font-weight:800;color:var(--brand)}
+.dish-btns{display:flex;align-items:center;gap:6px}
+.mini-cam{width:32px;height:32px;border-radius:10px;background:var(--bg);color:var(--ink);display:grid;place-items:center;font-size:14px}
+.mini-cam svg{width:16px;height:16px}
+.add-dish-btn{background:var(--brand);color:#fff;font-size:12px;font-weight:800;padding:7px 12px;border-radius:12px}
+.qty-box{display:inline-flex;align-items:center;gap:8px;background:var(--bg);border-radius:12px;padding:3px 6px}
+.qty-box button{width:24px;height:24px;border-radius:8px;background:#fff;color:var(--ink);font-weight:800;display:grid;place-items:center;font-size:15px}
+.qty-box span{font-size:13px;font-weight:800;min-width:14px;text-align:center}
+.new-dish-box{display:none;margin-bottom:16px}
+.new-dish-box.open{display:block}
+
+/* Modals (Cart & Photo Lightbox) */
+.modal-backdrop{position:absolute;inset:0;background:rgba(16,20,55,.5);display:none;z-index:50}
+.modal-backdrop.open{display:flex}
+.modal-backdrop.bottom{align-items:flex-end}
+.modal-backdrop.center{align-items:center;justify-content:center;padding:20px;background:rgba(16,20,55,.82);z-index:60}
+.cart-sheet{width:100%;max-height:84%;background:var(--bg);border-radius:28px 28px 0 0;display:flex;flex-direction:column;overflow:hidden;animation:slideUp .22s ease}
+@keyframes slideUp{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+.sheet-top{display:flex;justify-content:space-between;align-items:center;padding:18px 20px 14px;background:var(--card);border-bottom:1px solid var(--line)}
+.sheet-top h3{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.sheet-top-actions{display:flex;align-items:center;gap:10px}
+.clear-cart{font-size:12px;font-weight:700;color:var(--err)}
+.close-btn{width:34px;height:34px;border-radius:50%;background:var(--bg);color:var(--ink);display:grid;place-items:center;font-weight:800}
+.cart-list{flex:1;overflow-y:auto;padding:16px 20px}
+.cart-item{background:var(--card);border-radius:18px;padding:12px;display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.cart-thumb{width:54px;height:54px;border-radius:12px;background:var(--bg);display:grid;place-items:center;font-size:24px;overflow:hidden;flex-shrink:0}
+.cart-thumb img{width:100%;height:100%;object-fit:cover}
+.cart-info{flex:1;min-width:0}
+.cart-info b{display:block;font-size:14px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cart-info small{display:block;font-size:12px;color:var(--muted)}
+.cart-info .cprice{font-size:13px;font-weight:800;color:var(--brand);margin-top:2px}
+.cart-foot{background:var(--card);padding:16px 20px max(18px,env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+.sum-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px}
+.sum-row.total{font-size:17px;font-weight:800;color:var(--ink);margin:10px 0 14px}
+
+.photo-card{width:100%;background:var(--card);border-radius:26px;overflow:hidden;animation:in .2s ease}
+.photo-stage{position:relative;width:100%;height:270px;background:var(--bg);display:grid;place-items:center;font-size:72px}
+.photo-stage img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-close{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(16,20,55,.72);color:#fff;display:grid;place-items:center}
+.photo-meta{padding:18px}
+.photo-meta h3{font-size:20px;font-weight:800;margin-bottom:6px}
+.photo-meta p{font-size:13px;color:var(--muted);line-height:1.45;margin-bottom:14px}
+.photo-meta-foot{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.photo-meta-foot .dish-price{font-size:20px}
+.photo-meta-actions{display:flex;align-items:center;gap:8px}
+
+.btn-row{display:flex;gap:8px;margin-top:10px}
+.btn-danger-soft{width:100%;height:42px;border-radius:14px;background:#FBE4DF;color:var(--err);font-weight:700;font-size:13px}
+.btn-danger-soft:disabled{opacity:.6}
+.mini-del{width:32px;height:32px;border-radius:10px;background:#FBE4DF;color:var(--err);display:grid;place-items:center}
+.mini-del svg{width:15px;height:15px}
+.icon-btn.danger{background:rgba(196,50,31,.28)}
+.confirm-card{width:100%;max-width:330px;background:var(--card);border-radius:24px;padding:20px;animation:in .18s ease}
+.confirm-card h3{font-size:18px;font-weight:800;margin-bottom:6px}
+.confirm-card p{font-size:13px;color:var(--muted);line-height:1.45;margin-bottom:16px}
+.confirm-actions{display:flex;gap:10px}
+.confirm-actions button{flex:1;height:44px;border-radius:14px;font-weight:800;font-size:14px}
+.btn-cancel{background:var(--bg);color:var(--ink)}
+.btn-confirm-del{background:var(--err);color:#fff}
+
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -120,9 +214,9 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
             <svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
             <div><small>Entregar em</small>Minha casa</div>
           </div>
-          <button class="cart" aria-label="Carrinho, 2 itens">
+          <button class="cart" id="home-cart-btn" aria-label="Carrinho, 0 itens">
             <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.2 11a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7zM9 7a3 3 0 0 1 6 0"/></svg>
-            <span class="badge">2</span>
+            <span class="badge" id="home-cart-badge" style="display:none">0</span>
           </button>
         </div>
         <h1>Fome de quê?</h1>
@@ -169,6 +263,14 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
           <label for="restaurant-rating">Avaliação (0 a 5)</label>
           <input type="number" id="restaurant-rating" placeholder="Ex: 4.3" min="0" max="5" step="0.1" required>
         </div>
+        <div class="field">
+          <label>Foto do restaurante (opcional)</label>
+          <div class="dishimg" id="add-rest-preview-box" style="display:none;margin-bottom:10px">
+            <img id="add-rest-preview-img" src="" alt="Prévia da foto do restaurante">
+          </div>
+          <input type="file" id="restaurant-image-input" accept="image/png, image/jpeg, image/webp" hidden>
+          <button type="button" class="btn-soft" id="pick-rest-image-btn">📷 Escolher foto do restaurante</button>
+        </div>
         <button type="submit" class="btn" id="submit-btn">Cadastrar restaurante</button>
         <div class="msg" id="form-message" role="status"></div>
       </form>
@@ -177,7 +279,7 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
     <!-- Perfil -->
     <section class="view" id="profile-section">
       <h2>Perfil</h2>
-      <p>Atualize sua foto e as imagens dos pratos.</p>
+      <p>Atualize sua foto e as imagens dos restaurantes e pratos.</p>
 
       <div class="panel">
         <div class="who">
@@ -194,6 +296,9 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
           <input type="file" id="avatar-input" accept="image/png, image/jpeg, image/webp" hidden>
           <button type="button" class="btn" id="upload-avatar-btn">Enviar foto de perfil</button>
         </form>
+        <div class="btn-row" id="avatar-delete-row" style="display:none">
+          <button type="button" class="btn-danger-soft" id="delete-avatar-btn">Remover foto de perfil</button>
+        </div>
         <div class="msg" id="avatar-form-message" role="status"></div>
       </div>
 
@@ -206,6 +311,8 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
             <option value="2">Prato #2 - Pizza Margherita Especial</option>
             <option value="3">Prato #3 - Combo Sushi Salmão</option>
             <option value="4">Prato #4 - Bowl Mediterrâneo</option>
+            <option value="5">Prato #5 - Double Cheddar Melt</option>
+            <option value="6">Prato #6 - Pizza Calabresa Artesanal</option>
           </select>
         </div>
         <div class="dishimg" id="dish-preview-container">
@@ -216,7 +323,97 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
           <input type="file" id="dish-input" accept="image/png, image/jpeg, image/webp" hidden>
           <button type="button" class="btn" id="upload-dish-btn">Enviar imagem do prato</button>
         </form>
+        <div class="btn-row">
+          <button type="button" class="btn-danger-soft" id="delete-dish-img-btn" style="display:none">Remover imagem</button>
+          <button type="button" class="btn-danger-soft" id="profile-delete-dish-btn">Excluir prato</button>
+        </div>
         <div class="msg" id="dish-form-message" role="status"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Imagem do restaurante</h3>
+        <div class="field">
+          <label for="restaurant-select">Restaurante</label>
+          <select id="restaurant-select" onchange="onRestaurantSelectChange()"></select>
+        </div>
+        <div class="dishimg" id="rest-preview-container">
+          <span id="rest-placeholder">🏪</span>
+          <img id="rest-img" src="" alt="Imagem do restaurante" style="display:none">
+        </div>
+        <form id="rest-upload-form">
+          <input type="file" id="rest-input" accept="image/png, image/jpeg, image/webp" hidden>
+          <button type="button" class="btn" id="upload-rest-btn">Enviar imagem do restaurante</button>
+        </form>
+        <div class="btn-row">
+          <button type="button" class="btn-danger-soft" id="delete-rest-img-btn" style="display:none">Remover imagem</button>
+          <button type="button" class="btn-danger-soft" id="profile-delete-rest-btn">Excluir restaurante</button>
+        </div>
+        <div class="msg" id="rest-form-message" role="status"></div>
+      </div>
+    </section>
+
+    <!-- Detalhes do Restaurante / Cardápio -->
+    <section class="detail-view" id="restaurant-detail-section" aria-label="Cardápio do restaurante">
+      <header class="rest-hero">
+        <div class="rest-nav">
+          <button class="icon-btn" id="back-to-home-btn" aria-label="Voltar para restaurantes">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div class="rest-actions">
+            <button class="icon-btn" id="detail-photo-btn" title="Alterar foto do restaurante" aria-label="Alterar foto do restaurante">
+              <svg viewBox="0 0 24 24"><path d="M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/><circle cx="12" cy="13" r="3.5"/></svg>
+            </button>
+            <button class="icon-btn danger" id="detail-del-photo-btn" title="Remover foto do restaurante" aria-label="Remover foto do restaurante" style="display:none">
+              <svg viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M10.6 5H15l2 2h3a2 2 0 0 1 2 2v8.5M18 18H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h3"/></svg>
+            </button>
+            <input type="file" id="detail-rest-image-input" accept="image/png, image/jpeg, image/webp" hidden>
+            <button class="icon-btn fav-top" id="detail-fav-btn" aria-pressed="false" aria-label="Favoritar restaurante">
+              <svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg>
+            </button>
+            <button class="icon-btn danger" id="detail-delete-rest-btn" title="Excluir restaurante" aria-label="Excluir restaurante">
+              <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>
+            </button>
+            <button class="cart" id="detail-cart-btn" aria-label="Carrinho, 0 itens">
+              <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.2 11a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7zM9 7a3 3 0 0 1 6 0"/></svg>
+              <span class="badge" id="detail-cart-badge" style="display:none">0</span>
+            </button>
+          </div>
+        </div>
+        <div class="rest-head">
+          <div class="rest-em" id="detail-emoji">🍽️</div>
+          <div>
+            <h2 id="detail-name">Restaurante</h2>
+            <div class="rest-sub" id="detail-meta"></div>
+          </div>
+        </div>
+      </header>
+
+      <div class="menu-wrap">
+        <div class="menu-head">
+          <h3>Cardápio</h3>
+          <button class="menu-add-btn" id="toggle-new-dish-btn">+ Novo prato</button>
+        </div>
+
+        <form class="panel new-dish-box" id="new-dish-form">
+          <h3>Adicionar prato</h3>
+          <div class="field">
+            <label for="new-dish-name">Nome do prato</label>
+            <input type="text" id="new-dish-name" placeholder="Ex: Burger Artesanal" required>
+          </div>
+          <div class="field">
+            <label for="new-dish-price">Preço (R$)</label>
+            <input type="number" id="new-dish-price" placeholder="Ex: 32.90" min="0" step="0.01" required>
+          </div>
+          <div class="field">
+            <label for="new-dish-desc">Descrição</label>
+            <input type="text" id="new-dish-desc" placeholder="Ingredientes principais" required>
+          </div>
+          <button type="submit" class="btn" id="new-dish-submit">Salvar prato</button>
+          <div class="msg" id="new-dish-msg" role="status"></div>
+        </form>
+
+        <div id="dish-list"></div>
+        <input type="file" id="quick-dish-image-input" accept="image/png, image/jpeg, image/webp" hidden>
       </div>
     </section>
   </main>
@@ -228,6 +425,60 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
     <button data-view="favorites"><i><svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg></i>Favoritos</button>
     <button data-view="profile"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1-4 4-6 8-6s7 2 8 6"/></svg></i>Perfil</button>
   </nav>
+
+  <!-- Carrinho -->
+  <div class="modal-backdrop bottom" id="cart-modal" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+    <div class="cart-sheet">
+      <div class="sheet-top">
+        <h3 id="cart-title">Seu carrinho</h3>
+        <div class="sheet-top-actions">
+          <button class="clear-cart" id="clear-cart-btn" style="display:none">Limpar</button>
+          <button class="close-btn" id="close-cart-btn" aria-label="Fechar carrinho">✕</button>
+        </div>
+      </div>
+      <div class="cart-list" id="cart-items"></div>
+      <div class="cart-foot" id="cart-footer" style="display:none">
+        <div class="sum-row"><span>Subtotal</span><span id="cart-subtotal">R$ 0,00</span></div>
+        <div class="sum-row"><span>Entrega</span><span id="cart-delivery">R$ 5,00</span></div>
+        <div class="sum-row total"><span>Total</span><span id="cart-total">R$ 0,00</span></div>
+        <button class="btn" id="checkout-btn">Finalizar pedido</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox da foto do prato -->
+  <div class="modal-backdrop center" id="photo-modal" role="dialog" aria-modal="true" aria-labelledby="photo-modal-title">
+    <div class="photo-card">
+      <div class="photo-stage" id="photo-stage">
+        <span id="photo-modal-emoji">🍽️</span>
+        <img id="photo-modal-img" src="" alt="" style="display:none">
+        <button class="photo-close" id="close-photo-btn" aria-label="Fechar foto">✕</button>
+      </div>
+      <div class="photo-meta">
+        <h3 id="photo-modal-title">Prato</h3>
+        <p id="photo-modal-desc"></p>
+        <div class="photo-meta-foot">
+          <span class="dish-price" id="photo-modal-price">R$ 0,00</span>
+          <div class="photo-meta-actions">
+            <button type="button" class="btn-danger-soft" id="photo-modal-del-img" style="width:auto;height:34px;padding:0 12px;border-radius:12px;display:none">Remover foto</button>
+            <button class="add-dish-btn" id="photo-modal-add">+ Adicionar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmação de exclusão -->
+  <div class="modal-backdrop center" id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="confirm-card">
+      <h3 id="confirm-title">Confirmar exclusão</h3>
+      <p id="confirm-text">Deseja realmente excluir este item?</p>
+      <div class="confirm-actions">
+        <button type="button" class="btn-cancel" id="confirm-cancel-btn">Cancelar</button>
+        <button type="button" class="btn-confirm-del" id="confirm-ok-btn">Excluir</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -243,16 +494,21 @@ const CATS = {
 const SORTS = [["relevância", null], ["avaliação", (a,b)=>b.rating-a.rating], ["nome", (a,b)=>a.name.localeCompare(b.name)]];
 
 let all = [], shown = [], category = "Todos", query = "", page = 0, sortIdx = 0, onlyFav = false;
+let currentRestaurant = null, currentDishes = [], lastHomeView = "home", uploadDishId = null, modalDish = null;
 let favs = new Set();
 try { favs = new Set(JSON.parse(localStorage.getItem("ef-favs") || "[]")); } catch (e) {}
+let cart = [];
+try { cart = JSON.parse(localStorage.getItem("ef-cart") || "[]"); } catch (e) { cart = []; }
 
 const $ = id => document.getElementById(id);
 const list = $("restaurant-list");
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money = v => "R$ " + Number(v || 0).toFixed(2).replace(".", ",");
 
 // Preço e tempo estáveis por restaurante
 const fees = {};
-const fee = id => fees[id] ??= (Math.random() * 5 + 3).toFixed(2).replace(".", ",");
+const feeNum = id => fees[id] ??= Number((3 + ((id * 1.7) % 5)).toFixed(2));
+const fee = id => feeNum(id).toFixed(2).replace(".", ",");
 const time = id => { const t = 15 + (id * 7) % 20; return `${t}–${t + 10} min`; };
 
 // ----- Categorias -----
@@ -276,13 +532,22 @@ async function fetchRestaurants() {
     const res = await fetch(API_URL);
     if (!res.ok) throw new Error();
     all = await res.json();
+    syncRestaurantSelect();
     render(true);
   } catch (e) {
     list.innerHTML = `<div class="state"><div class="big">⚠️</div><b>Servidor offline</b>Rode no terminal:<br><code>node server.js</code></div>`;
   }
 }
 
-// ----- Render -----
+function syncRestaurantSelect() {
+  const sel = $("restaurant-select");
+  if (!sel) return;
+  const prev = sel.value;
+  sel.innerHTML = all.map(r => `<option value="${r.id}">#${r.id} - ${esc(r.name)}</option>`).join("");
+  if (prev && all.some(r => String(r.id) === prev)) sel.value = prev;
+}
+
+// ----- Render Restaurantes -----
 function render(reset) {
   if (reset) page = 0;
   shown = all.filter(r =>
@@ -299,10 +564,13 @@ function render(reset) {
   let html = shown.slice(0, end).map((r, i) => {
     const [emoji, tint] = CATS[r.category] || ["🏪", "#ECE8F4"];
     const on = favs.has(r.id);
-    return `<article class="card" style="animation-delay:${(i % PAGE_SIZE) * 50}ms">
-      <div class="thumb" style="background:${tint}">${emoji}
+    const thumbContent = r.imageUrl
+      ? `<img src="${esc(r.imageUrl)}?t=${Date.now()}" alt="${esc(r.name)}">`
+      : emoji;
+    return `<article class="card" data-restaurant-id="${r.id}" tabindex="0" role="button" aria-label="Abrir ${esc(r.name)}" style="animation-delay:${(i % PAGE_SIZE) * 50}ms">
+      <div class="thumb" style="background:${tint}">${thumbContent}
         <span class="rate">★ ${Number(r.rating || 0).toFixed(1)}</span>
-        <button class="fav" data-id="${r.id}" aria-pressed="${on}" aria-label="${on ? "Remover dos" : "Adicionar aos"} favoritos">
+        <button class="fav" type="button" data-id="${r.id}" aria-pressed="${on}" aria-label="${on ? "Remover dos" : "Adicionar aos"} favoritos">
           <svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg>
         </button>
       </div>
@@ -324,18 +592,589 @@ function loadMore() {
   setTimeout(() => { page++; render(); }, 250);
 }
 
-list.addEventListener("click", e => {
-  const b = e.target.closest(".fav"); if (!b) return;
-  const id = Number(b.dataset.id);
+function toggleFav(id) {
   favs.has(id) ? favs.delete(id) : favs.add(id);
   try { localStorage.setItem("ef-favs", JSON.stringify([...favs])); } catch (e) {}
-  onlyFav ? render() : (b.setAttribute("aria-pressed", favs.has(id)));
+  return favs.has(id);
+}
+
+list.addEventListener("click", e => {
+  const favBtn = e.target.closest(".fav");
+  if (favBtn) {
+    e.stopPropagation();
+    const on = toggleFav(Number(favBtn.dataset.id));
+    onlyFav ? render() : favBtn.setAttribute("aria-pressed", on);
+    return;
+  }
+  const card = e.target.closest(".card[data-restaurant-id]");
+  if (card) openRestaurant(Number(card.dataset.restaurantId));
 });
+
+list.addEventListener("keydown", e => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  if (e.target.closest(".fav")) return;
+  const card = e.target.closest(".card[data-restaurant-id]");
+  if (card) { e.preventDefault(); openRestaurant(Number(card.dataset.restaurantId)); }
+});
+
+// ----- Detalhes do Restaurante & Cardápio -----
+function renderDetailBadge(rest) {
+  const [emoji, tint] = CATS[rest.category] || ["🏪", "#ECE8F4"];
+  const box = $("detail-emoji");
+  box.style.background = tint;
+  box.innerHTML = rest.imageUrl
+    ? `<img src="${esc(rest.imageUrl)}?t=${Date.now()}" alt="${esc(rest.name)}">`
+    : esc(emoji);
+  const delPhotoBtn = $("detail-del-photo-btn");
+  if (delPhotoBtn) delPhotoBtn.style.display = rest.imageUrl ? "grid" : "none";
+}
+
+async function openRestaurant(id) {
+  const rest = all.find(r => r.id === id);
+  if (!rest) return;
+  currentRestaurant = rest;
+
+  renderDetailBadge(rest);
+  $("detail-name").textContent = rest.name;
+  $("detail-meta").innerHTML = `<span class="rest-pill">★ ${Number(rest.rating || 0).toFixed(1)}</span><span>${esc(rest.category || "Restaurante")}</span><span>• ${time(rest.id)}</span><span>• Entrega ${money(feeNum(rest.id))}</span>`;
+  $("detail-fav-btn").setAttribute("aria-pressed", favs.has(rest.id));
+
+  $("home-view").style.display = "none";
+  $("add-restaurant-section").classList.remove("active");
+  $("profile-section").classList.remove("active");
+  $("new-dish-form").classList.remove("open");
+  $("restaurant-detail-section").classList.add("active");
+  $("screen").scrollTo({ top: 0 });
+
+  await loadRestaurantDishes(rest.id);
+}
+
+async function loadRestaurantDishes(restaurantId) {
+  const dishList = $("dish-list");
+  dishList.innerHTML = '<div class="skel" style="height:118px;margin-bottom:12px"></div>'.repeat(2);
+  try {
+    const res = await fetch(`/restaurants/${restaurantId}/dishes`);
+    if (!res.ok) throw new Error();
+    currentDishes = await res.json();
+    renderDishes();
+  } catch (e) {
+    dishList.innerHTML = `<div class="state"><div class="big">⚠️</div><b>Erro ao carregar cardápio</b>Tente novamente em instantes.</div>`;
+  }
+}
+
+function renderDishes() {
+  const dishList = $("dish-list");
+  if (!currentDishes.length) {
+    dishList.innerHTML = `<div class="state"><div class="big">🍽️</div><b>Nenhum prato cadastrado</b>Use o botão "+ Novo prato" acima para adicionar o primeiro item ao cardápio.</div>`;
+    return;
+  }
+  const [fallbackEmoji, tint] = CATS[currentRestaurant?.category] || ["🍽️", "#ECE8F4"];
+
+  dishList.innerHTML = currentDishes.map(d => {
+    const qty = getCartQty(d.id);
+    const hasImg = Boolean(d.imageUrl);
+    const imgSrc = hasImg ? `${esc(d.imageUrl)}?t=${Date.now()}` : "";
+    const photoHtml = hasImg
+      ? `<img src="${imgSrc}" alt="${esc(d.name)}"><span class="dish-zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-3.5-3.5"/></svg></span>`
+      : `<span>${fallbackEmoji}</span>`;
+
+    const actionHtml = qty > 0
+      ? `<div class="qty-box">
+          <button type="button" data-dish-dec="${d.id}" aria-label="Diminuir quantidade">−</button>
+          <span>${qty}</span>
+          <button type="button" data-dish-inc="${d.id}" aria-label="Aumentar quantidade">+</button>
+        </div>`
+      : `<button type="button" class="add-dish-btn" data-dish-add="${d.id}">+ Adicionar</button>`;
+
+    return `<article class="dish-card">
+      <div class="dish-photo" style="background:${tint}" data-dish-photo="${d.id}" role="button" tabindex="0" aria-label="Ver foto de ${esc(d.name)}">
+        ${photoHtml}
+      </div>
+      <div class="dish-body">
+        <div>
+          <div class="dish-title">${esc(d.name)}</div>
+          <div class="dish-desc">${esc(d.description || d.category || "")}</div>
+        </div>
+        <div class="dish-foot">
+          <span class="dish-price">${money(d.price)}</span>
+          <div class="dish-btns">
+            <button type="button" class="mini-cam" data-dish-upload="${d.id}" title="Enviar foto do prato" aria-label="Enviar foto para ${esc(d.name)}">
+              <svg viewBox="0 0 24 24"><path d="M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/><circle cx="12" cy="13" r="3.5"/></svg>
+            </button>
+            <button type="button" class="mini-del" data-dish-delete="${d.id}" title="Excluir prato" aria-label="Excluir ${esc(d.name)}">
+              <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>
+            </button>
+            ${actionHtml}
+          </div>
+        </div>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+$("back-to-home-btn").addEventListener("click", () => switchView(lastHomeView || "home"));
+
+$("detail-photo-btn").addEventListener("click", () => {
+  if (currentRestaurant) $("detail-rest-image-input").click();
+});
+$("detail-del-photo-btn").addEventListener("click", () => {
+  if (!currentRestaurant) return;
+  askConfirm("Remover foto do restaurante?", `A foto atual de "${currentRestaurant.name}" será excluída.`, async () => {
+    const t = await ensureAuthToken();
+    const res = await fetch(`/restaurants/${currentRestaurant.id}/image`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${t}` }
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Erro ao remover imagem");
+    if (data.restaurant) {
+      currentRestaurant = data.restaurant;
+      all = all.map(r => r.id === data.restaurant.id ? data.restaurant : r);
+      renderDetailBadge(data.restaurant);
+      render();
+    }
+  });
+});
+
+$("detail-delete-rest-btn").addEventListener("click", () => {
+  if (!currentRestaurant) return;
+  const target = currentRestaurant;
+  askConfirm("Excluir restaurante?", `Tem certeza que deseja excluir "${target.name}" e todos os seus pratos?`, async () => {
+    await removeRestaurantById(target.id);
+    switchView(lastHomeView || "home");
+  });
+});
+
+$("detail-rest-image-input").addEventListener("change", async e => {
+  const file = e.target.files[0];
+  if (!file || !currentRestaurant) return;
+  const t = await ensureAuthToken();
+  const body = new FormData();
+  body.append("image", file);
+  try {
+    const res = await fetch(`/restaurants/${currentRestaurant.id}/image`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${t}` },
+      body
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Erro ao enviar imagem");
+    if (data.restaurant) {
+      currentRestaurant = data.restaurant;
+      all = all.map(r => r.id === data.restaurant.id ? data.restaurant : r);
+      renderDetailBadge(data.restaurant);
+      render();
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    e.target.value = "";
+  }
+});
+
+$("detail-fav-btn").addEventListener("click", () => {
+  if (!currentRestaurant) return;
+  const on = toggleFav(currentRestaurant.id);
+  $("detail-fav-btn").setAttribute("aria-pressed", on);
+  render();
+});
+
+$("toggle-new-dish-btn").addEventListener("click", () => {
+  $("new-dish-form").classList.toggle("open");
+});
+
+$("new-dish-form").addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!currentRestaurant) return;
+  const name = $("new-dish-name").value.trim();
+  const price = parseFloat($("new-dish-price").value);
+  const description = $("new-dish-desc").value.trim();
+  if (!name || isNaN(price) || price < 0) return showMsg("new-dish-msg", "Preencha nome e preço válidos.", "error");
+
+  const btn = $("new-dish-submit");
+  btn.disabled = true; btn.textContent = "Salvando...";
+  try {
+    const t = await ensureAuthToken();
+    const res = await fetch(`/restaurants/${currentRestaurant.id}/dishes`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${t}` },
+      body: JSON.stringify({ name, category: currentRestaurant.category || "Geral", price, description })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Erro ao cadastrar prato");
+    currentDishes.push(data);
+    renderDishes();
+    $("new-dish-form").reset();
+    $("new-dish-form").classList.remove("open");
+    // Atualiza também o select do Perfil
+    const sel = $("dish-select");
+    if (sel && !Array.from(sel.options).some(o => Number(o.value) === data.id)) {
+      const opt = document.createElement("option");
+      opt.value = String(data.id);
+      opt.textContent = `Prato #${data.id} - ${data.name}`;
+      sel.appendChild(opt);
+    }
+  } catch (err) {
+    showMsg("new-dish-msg", err.message, "error");
+  } finally {
+    btn.disabled = false; btn.textContent = "Salvar prato";
+  }
+});
+
+$("dish-list").addEventListener("click", e => {
+  const addBtn = e.target.closest("[data-dish-add]");
+  if (addBtn) { addToCart(Number(addBtn.dataset.dishAdd)); return; }
+
+  const incBtn = e.target.closest("[data-dish-inc]");
+  if (incBtn) { addToCart(Number(incBtn.dataset.dishInc)); return; }
+
+  const decBtn = e.target.closest("[data-dish-dec]");
+  if (decBtn) { changeCartQty(Number(decBtn.dataset.dishDec), -1); return; }
+
+  const upBtn = e.target.closest("[data-dish-upload]");
+  if (upBtn) {
+    uploadDishId = Number(upBtn.dataset.dishUpload);
+    $("quick-dish-image-input").click();
+    return;
+  }
+
+  const delBtn = e.target.closest("[data-dish-delete]");
+  if (delBtn) {
+    const dishId = Number(delBtn.dataset.dishDelete);
+    const dish = currentDishes.find(d => d.id === dishId);
+    if (dish) {
+      askConfirm("Excluir prato?", `Deseja excluir "${dish.name}" do cardápio?`, () => removeDishById(dish.id));
+    }
+    return;
+  }
+
+  const photoBtn = e.target.closest("[data-dish-photo]");
+  if (photoBtn) {
+    const dish = currentDishes.find(d => d.id === Number(photoBtn.dataset.dishPhoto));
+    if (dish) openPhotoModal(dish);
+  }
+});
+
+$("dish-list").addEventListener("keydown", e => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const photoBtn = e.target.closest("[data-dish-photo]");
+  if (photoBtn) {
+    e.preventDefault();
+    const dish = currentDishes.find(d => d.id === Number(photoBtn.dataset.dishPhoto));
+    if (dish) openPhotoModal(dish);
+  }
+});
+
+$("quick-dish-image-input").addEventListener("change", async e => {
+  const file = e.target.files[0];
+  if (!file || !uploadDishId) return;
+  const t = await ensureAuthToken();
+  const body = new FormData();
+  body.append("image", file);
+  try {
+    const res = await fetch(`/dishes/${uploadDishId}/image`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${t}` },
+      body
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Erro ao enviar imagem");
+    if (data.dish) {
+      currentDishes = currentDishes.map(d => d.id === data.dish.id ? data.dish : d);
+      cart = cart.map(item => item.id === data.dish.id ? { ...item, imageUrl: data.dish.imageUrl } : item);
+      saveCart();
+      renderDishes();
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    e.target.value = "";
+    uploadDishId = null;
+  }
+});
+
+// ----- Lightbox da foto do prato -----
+function openPhotoModal(dish) {
+  modalDish = dish;
+  const [fallbackEmoji, tint] = CATS[dish.category || currentRestaurant?.category] || ["🍽️", "#ECE8F4"];
+  $("photo-stage").style.background = tint;
+  $("photo-modal-emoji").textContent = fallbackEmoji;
+  if (dish.imageUrl) {
+    $("photo-modal-img").src = `${dish.imageUrl}?t=${Date.now()}`;
+    $("photo-modal-img").alt = dish.name;
+    $("photo-modal-img").style.display = "block";
+    $("photo-modal-emoji").style.display = "none";
+  } else {
+    $("photo-modal-img").style.display = "none";
+    $("photo-modal-emoji").style.display = "";
+  }
+  $("photo-modal-title").textContent = dish.name;
+  $("photo-modal-desc").textContent = dish.description || "Sem descrição disponível.";
+  $("photo-modal-price").textContent = money(dish.price);
+  $("photo-modal-del-img").style.display = dish.imageUrl ? "inline-flex" : "none";
+  $("photo-modal").classList.add("open");
+}
+
+function closePhotoModal() {
+  $("photo-modal").classList.remove("open");
+  modalDish = null;
+}
+
+$("close-photo-btn").addEventListener("click", closePhotoModal);
+$("photo-modal").addEventListener("click", e => {
+  if (e.target === $("photo-modal")) closePhotoModal();
+});
+$("photo-modal-add").addEventListener("click", () => {
+  if (!modalDish) return;
+  addToCart(modalDish.id);
+  closePhotoModal();
+});
+$("photo-modal-del-img").addEventListener("click", async () => {
+  if (!modalDish) return;
+  const target = modalDish;
+  try {
+    const updated = await removeDishImageById(target.id);
+    if (updated) openPhotoModal(updated);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// ----- Carrinho -----
+function saveCart() {
+  try { localStorage.setItem("ef-cart", JSON.stringify(cart)); } catch (e) {}
+  updateCartBadges();
+}
+
+function getCartQty(dishId) {
+  const item = cart.find(i => i.id === dishId);
+  return item ? item.qty : 0;
+}
+
+function addToCart(dishId) {
+  const dish = currentDishes.find(d => d.id === dishId);
+  if (!dish) return;
+  const existing = cart.find(i => i.id === dishId);
+  if (existing) {
+    existing.qty += 1;
+    existing.imageUrl = dish.imageUrl || existing.imageUrl;
+  } else {
+    cart.push({
+      id: dish.id,
+      name: dish.name,
+      price: Number(dish.price || 0),
+      imageUrl: dish.imageUrl || "",
+      category: dish.category || currentRestaurant?.category || "",
+      restaurantId: currentRestaurant?.id || dish.restaurantId,
+      restaurantName: currentRestaurant?.name || "EasyFood",
+      qty: 1
+    });
+  }
+  saveCart();
+  if ($("restaurant-detail-section").classList.contains("active")) renderDishes();
+  if ($("cart-modal").classList.contains("open")) renderCart();
+}
+
+function changeCartQty(dishId, delta) {
+  const idx = cart.findIndex(i => i.id === dishId);
+  if (idx === -1) return;
+  cart[idx].qty += delta;
+  if (cart[idx].qty <= 0) cart.splice(idx, 1);
+  saveCart();
+  if ($("restaurant-detail-section").classList.contains("active")) renderDishes();
+  if ($("cart-modal").classList.contains("open")) renderCart();
+}
+
+function updateCartBadges() {
+  const count = cart.reduce((sum, i) => sum + i.qty, 0);
+  const label = `Carrinho, ${count} ${count === 1 ? "item" : "itens"}`;
+  [["home-cart-btn", "home-cart-badge"], ["detail-cart-btn", "detail-cart-badge"]].forEach(([btnId, badgeId]) => {
+    const btn = $(btnId), badge = $(badgeId);
+    if (!btn || !badge) return;
+    btn.setAttribute("aria-label", label);
+    badge.textContent = String(count);
+    badge.style.display = count > 0 ? "grid" : "none";
+  });
+}
+
+function openCart() {
+  renderCart();
+  $("cart-modal").classList.add("open");
+}
+
+function closeCart() {
+  $("cart-modal").classList.remove("open");
+}
+
+function renderCart(orderPlaced = false) {
+  const itemsEl = $("cart-items"), footEl = $("cart-footer"), clearBtn = $("clear-cart-btn");
+  if (orderPlaced) {
+    clearBtn.style.display = "none";
+    footEl.style.display = "none";
+    itemsEl.innerHTML = `<div class="state"><div class="big">🛵</div><b>Pedido confirmado!</b>Seu pedido já está em preparo para entrega em <b>Minha casa</b>.</div>`;
+    return;
+  }
+  if (!cart.length) {
+    clearBtn.style.display = "none";
+    footEl.style.display = "none";
+    itemsEl.innerHTML = `<div class="state"><div class="big">🛒</div><b>Seu carrinho está vazio</b>Abra um restaurante e toque em "+ Adicionar" nos pratos que deseja pedir.</div>`;
+    return;
+  }
+
+  clearBtn.style.display = "";
+  footEl.style.display = "block";
+  itemsEl.innerHTML = cart.map(item => {
+    const [emoji] = CATS[item.category] || ["🍽️"];
+    const thumb = item.imageUrl
+      ? `<img src="${esc(item.imageUrl)}?t=${Date.now()}" alt="${esc(item.name)}">`
+      : emoji;
+    return `<div class="cart-item">
+      <div class="cart-thumb">${thumb}</div>
+      <div class="cart-info">
+        <b>${esc(item.name)}</b>
+        <small>${esc(item.restaurantName)}</small>
+        <div class="cprice">${money(item.price * item.qty)}</div>
+      </div>
+      <div class="qty-box">
+        <button type="button" data-cart-dec="${item.id}" aria-label="Remover uma unidade">−</button>
+        <span>${item.qty}</span>
+        <button type="button" data-cart-inc="${item.id}" aria-label="Adicionar uma unidade">+</button>
+      </div>
+    </div>`;
+  }).join("");
+
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const delivery = feeNum(cart[0].restaurantId || 1);
+  $("cart-subtotal").textContent = money(subtotal);
+  $("cart-delivery").textContent = money(delivery);
+  $("cart-total").textContent = money(subtotal + delivery);
+}
+
+$("home-cart-btn").addEventListener("click", openCart);
+$("detail-cart-btn").addEventListener("click", openCart);
+$("close-cart-btn").addEventListener("click", closeCart);
+$("cart-modal").addEventListener("click", e => {
+  if (e.target === $("cart-modal")) closeCart();
+});
+$("clear-cart-btn").addEventListener("click", () => {
+  cart = [];
+  saveCart();
+  renderCart();
+  if ($("restaurant-detail-section").classList.contains("active")) renderDishes();
+});
+$("cart-items").addEventListener("click", e => {
+  const inc = e.target.closest("[data-cart-inc]");
+  if (inc) { changeCartQty(Number(inc.dataset.cartInc), 1); return; }
+  const dec = e.target.closest("[data-cart-dec]");
+  if (dec) { changeCartQty(Number(dec.dataset.cartDec), -1); }
+});
+$("checkout-btn").addEventListener("click", () => {
+  cart = [];
+  saveCart();
+  renderCart(true);
+  if ($("restaurant-detail-section").classList.contains("active")) renderDishes();
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") {
+    closeConfirmModal();
+    closePhotoModal();
+    closeCart();
+  }
+});
+
+// ----- Modal de Confirmação e Exclusões -----
+let confirmAction = null;
+function askConfirm(title, text, onConfirm) {
+  $("confirm-title").textContent = title;
+  $("confirm-text").textContent = text;
+  confirmAction = onConfirm;
+  $("confirm-ok-btn").disabled = false;
+  $("confirm-ok-btn").textContent = "Excluir";
+  $("confirm-modal").classList.add("open");
+}
+function closeConfirmModal() {
+  $("confirm-modal").classList.remove("open");
+  confirmAction = null;
+}
+$("confirm-cancel-btn").addEventListener("click", closeConfirmModal);
+$("confirm-modal").addEventListener("click", e => {
+  if (e.target === $("confirm-modal")) closeConfirmModal();
+});
+$("confirm-ok-btn").addEventListener("click", async () => {
+  if (!confirmAction) return;
+  const btn = $("confirm-ok-btn");
+  btn.disabled = true; btn.textContent = "Excluindo...";
+  try {
+    await confirmAction();
+    closeConfirmModal();
+  } catch (err) {
+    btn.disabled = false; btn.textContent = "Excluir";
+    console.error(err);
+  }
+});
+
+async function removeDishImageById(dishId) {
+  const t = await ensureAuthToken();
+  const res = await fetch(`/dishes/${dishId}/image`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${t}` }
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Erro ao remover imagem do prato");
+  if (data.dish) {
+    currentDishes = currentDishes.map(d => d.id === data.dish.id ? data.dish : d);
+    cart = cart.map(item => item.id === data.dish.id ? { ...item, imageUrl: "" } : item);
+    saveCart();
+    if ($("restaurant-detail-section").classList.contains("active")) renderDishes();
+  }
+  return data.dish;
+}
+
+async function removeDishById(dishId) {
+  const t = await ensureAuthToken();
+  const res = await fetch(`/dishes/${dishId}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${t}` }
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.error || "Erro ao excluir prato");
+  }
+  currentDishes = currentDishes.filter(d => d.id !== dishId);
+  cart = cart.filter(item => item.id !== dishId);
+  saveCart();
+  if ($("restaurant-detail-section").classList.contains("active")) renderDishes();
+  await syncDishSelect();
+}
+
+async function removeRestaurantById(restaurantId) {
+  const t = await ensureAuthToken();
+  const res = await fetch(`/restaurants/${restaurantId}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${t}` }
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.error || "Erro ao excluir restaurante");
+  }
+  all = all.filter(r => r.id !== restaurantId);
+  favs.delete(restaurantId);
+  try { localStorage.setItem("ef-favs", JSON.stringify([...favs])); } catch (e) {}
+  cart = cart.filter(item => item.restaurantId !== restaurantId);
+  saveCart();
+  if (currentRestaurant && currentRestaurant.id === restaurantId) currentRestaurant = null;
+  syncRestaurantSelect();
+  await syncDishSelect();
+  render();
+}
 
 // ----- Navegação -----
 function switchView(view) {
   const home = ["home", "search", "favorites"].includes(view);
+  if (home) lastHomeView = view;
   $("home-view").style.display = home ? "" : "none";
+  $("restaurant-detail-section").classList.remove("active");
   $("add-restaurant-section").classList.toggle("active", view === "add");
   $("profile-section").classList.toggle("active", view === "profile");
   document.querySelectorAll(".nav button").forEach(b =>
@@ -348,14 +1187,37 @@ function switchView(view) {
     render(true);
     if (view === "search") $("search-input").focus();
   }
-  if (view === "profile") { loadUserProfile(); onDishSelectChange(); }
+  if (view === "profile") {
+    loadUserProfile();
+    syncDishSelect().then(onDishSelectChange);
+    syncRestaurantSelect();
+    onRestaurantSelectChange();
+  }
 }
 document.querySelector(".nav").addEventListener("click", e => {
   const b = e.target.closest("button"); if (b) switchView(b.dataset.view);
 });
 
-// ----- Cadastro de restaurante (POST /restaurants) -----
+// ----- Cadastro de restaurante (POST /restaurants + foto opcional) -----
 const addForm = $("add-restaurant-form");
+const addRestImgInput = $("restaurant-image-input");
+$("pick-rest-image-btn").addEventListener("click", () => addRestImgInput.click());
+addRestImgInput.addEventListener("change", () => {
+  const file = addRestImgInput.files[0];
+  if (!file) {
+    $("add-rest-preview-box").style.display = "none";
+    $("pick-rest-image-btn").textContent = "📷 Escolher foto do restaurante";
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    $("add-rest-preview-img").src = reader.result;
+    $("add-rest-preview-box").style.display = "grid";
+  };
+  reader.readAsDataURL(file);
+  $("pick-rest-image-btn").textContent = `📷 ${file.name}`;
+});
+
 addForm.addEventListener("submit", async e => {
   e.preventDefault();
   const name = $("restaurant-name").value.trim();
@@ -365,11 +1227,35 @@ addForm.addEventListener("submit", async e => {
 
   const btn = $("submit-btn"); btn.disabled = true; btn.textContent = "Cadastrando...";
   try {
-    const res = await fetch(API_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, category, rating }) });
+    const t = await ensureAuthToken();
+    const headers = { "Content-Type": "application/json" };
+    if (t) headers.Authorization = `Bearer ${t}`;
+    const res = await fetch(API_URL, { method: "POST", headers, body: JSON.stringify({ name, category, rating }) });
     if (!res.ok) throw new Error();
-    const created = await res.json();
+    let created = await res.json();
+
+    const file = addRestImgInput.files[0];
+    if (file && t) {
+      const body = new FormData();
+      body.append("image", file);
+      const upRes = await fetch(`/restaurants/${created.id}/image`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${t}` },
+        body
+      });
+      if (upRes.ok) {
+        const upData = await upRes.json();
+        if (upData.restaurant) created = upData.restaurant;
+      }
+    }
+
     showMsg("form-message", `“${created.name}” foi cadastrado.`, "success");
-    addForm.reset(); all.push(created);
+    addForm.reset();
+    $("add-rest-preview-box").style.display = "none";
+    $("pick-rest-image-btn").textContent = "📷 Escolher foto do restaurante";
+    all.push(created);
+    syncRestaurantSelect();
+    render();
   } catch (err) {
     showMsg("form-message", "Não foi possível cadastrar. Verifique se o servidor está rodando.", "error");
   } finally { btn.disabled = false; btn.textContent = "Cadastrar restaurante"; }
@@ -404,14 +1290,60 @@ async function loadUserProfile() {
     $("profile-user-name").textContent = user.name;
     $("profile-user-email").textContent = user.email;
     setImg("avatar-img", "avatar-placeholder", user.avatarUrl);
+    $("avatar-delete-row").style.display = user.avatarUrl ? "flex" : "none";
   } catch (err) { console.error("Erro ao carregar perfil:", err); }
 }
 
-async function onDishSelectChange() {
+async function syncDishSelect() {
+  const sel = $("dish-select");
+  if (!sel) return;
+  const prev = sel.value;
   try {
-    const dish = await (await fetch(`/dishes/${$("dish-select").value}`)).json();
+    const dishes = await (await fetch("/dishes")).json();
+    if (Array.isArray(dishes)) {
+      sel.innerHTML = dishes.length
+        ? dishes.map(d => `<option value="${d.id}">Prato #${d.id} - ${esc(d.name)}</option>`).join("")
+        : `<option value="">Nenhum prato cadastrado</option>`;
+      if (prev && dishes.some(d => String(d.id) === prev)) sel.value = prev;
+    }
+  } catch (e) {}
+}
+
+async function onDishSelectChange() {
+  const dishId = $("dish-select").value;
+  if (!dishId) {
+    setImg("dish-img", "dish-placeholder", null);
+    $("delete-dish-img-btn").style.display = "none";
+    $("profile-delete-dish-btn").disabled = true;
+    return;
+  }
+  $("profile-delete-dish-btn").disabled = false;
+  try {
+    const dish = await (await fetch(`/dishes/${dishId}`)).json();
+    const hasImg = Boolean(dish && dish.imageUrl);
     setImg("dish-img", "dish-placeholder", dish && dish.imageUrl);
-  } catch (err) { setImg("dish-img", "dish-placeholder", null); }
+    $("delete-dish-img-btn").style.display = hasImg ? "block" : "none";
+  } catch (err) {
+    setImg("dish-img", "dish-placeholder", null);
+    $("delete-dish-img-btn").style.display = "none";
+  }
+}
+
+function onRestaurantSelectChange() {
+  const restId = $("restaurant-select").value;
+  const rest = all.find(r => String(r.id) === restId);
+  if (!rest) {
+    $("rest-placeholder").textContent = "🏪";
+    setImg("rest-img", "rest-placeholder", null);
+    $("delete-rest-img-btn").style.display = "none";
+    $("profile-delete-rest-btn").disabled = true;
+    return;
+  }
+  $("profile-delete-rest-btn").disabled = false;
+  const [emoji] = CATS[rest.category] || ["🏪"];
+  $("rest-placeholder").textContent = emoji;
+  setImg("rest-img", "rest-placeholder", rest.imageUrl);
+  $("delete-rest-img-btn").style.display = rest.imageUrl ? "block" : "none";
 }
 
 function bindUpload({ inputId, btnId, msgId, url, idleText, okText, apply }) {
@@ -433,11 +1365,97 @@ function bindUpload({ inputId, btnId, msgId, url, idleText, okText, apply }) {
 }
 bindUpload({ formId: "avatar-upload-form", inputId: "avatar-input", btnId: "upload-avatar-btn", msgId: "avatar-form-message",
   url: () => "/auth/me/image", idleText: "Enviar foto de perfil", okText: "Foto de perfil atualizada.",
-  apply: d => d.user && setImg("avatar-img", "avatar-placeholder", d.user.avatarUrl) });
+  apply: d => {
+    if (!d.user) return;
+    setImg("avatar-img", "avatar-placeholder", d.user.avatarUrl);
+    $("avatar-delete-row").style.display = d.user.avatarUrl ? "flex" : "none";
+  }
+});
 bindUpload({ formId: "dish-upload-form", inputId: "dish-input", btnId: "upload-dish-btn", msgId: "dish-form-message",
   url: () => `/dishes/${$("dish-select").value}/image`, idleText: "Enviar imagem do prato", okText: "Imagem do prato salva.",
-  apply: d => d.dish && setImg("dish-img", "dish-placeholder", d.dish.imageUrl) });
+  apply: d => {
+    if (!d.dish) return;
+    setImg("dish-img", "dish-placeholder", d.dish.imageUrl);
+    $("delete-dish-img-btn").style.display = d.dish.imageUrl ? "block" : "none";
+  }
+});
+bindUpload({ formId: "rest-upload-form", inputId: "rest-input", btnId: "upload-rest-btn", msgId: "rest-form-message",
+  url: () => `/restaurants/${$("restaurant-select").value}/image`, idleText: "Enviar imagem do restaurante", okText: "Imagem do restaurante salva.",
+  apply: d => {
+    if (!d.restaurant) return;
+    all = all.map(r => r.id === d.restaurant.id ? d.restaurant : r);
+    setImg("rest-img", "rest-placeholder", d.restaurant.imageUrl);
+    $("delete-rest-img-btn").style.display = d.restaurant.imageUrl ? "block" : "none";
+    render();
+  }
+});
 
+$("delete-avatar-btn").addEventListener("click", () => {
+  askConfirm("Remover foto de perfil?", "Sua foto de perfil atual será excluída.", async () => {
+    const t = await ensureAuthToken();
+    const res = await fetch("/auth/me/image", { method: "DELETE", headers: { Authorization: `Bearer ${t}` } });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Erro ao remover foto");
+    setImg("avatar-img", "avatar-placeholder", null);
+    $("avatar-delete-row").style.display = "none";
+    showMsg("avatar-form-message", "Foto de perfil removida.", "success");
+  });
+});
+
+$("delete-dish-img-btn").addEventListener("click", () => {
+  const dishId = Number($("dish-select").value);
+  if (!dishId) return;
+  askConfirm("Remover imagem do prato?", "A imagem deste prato será excluída.", async () => {
+    await removeDishImageById(dishId);
+    setImg("dish-img", "dish-placeholder", null);
+    $("delete-dish-img-btn").style.display = "none";
+    showMsg("dish-form-message", "Imagem do prato removida.", "success");
+  });
+});
+
+$("profile-delete-dish-btn").addEventListener("click", () => {
+  const sel = $("dish-select");
+  const dishId = Number(sel.value);
+  if (!dishId) return;
+  const label = sel.options[sel.selectedIndex]?.text || `Prato #${dishId}`;
+  askConfirm("Excluir prato?", `Deseja excluir "${label}" permanentemente?`, async () => {
+    await removeDishById(dishId);
+    await onDishSelectChange();
+    showMsg("dish-form-message", "Prato excluído com sucesso.", "success");
+  });
+});
+
+$("delete-rest-img-btn").addEventListener("click", () => {
+  const restId = Number($("restaurant-select").value);
+  if (!restId) return;
+  askConfirm("Remover imagem do restaurante?", "A foto deste restaurante será excluída.", async () => {
+    const t = await ensureAuthToken();
+    const res = await fetch(`/restaurants/${restId}/image`, { method: "DELETE", headers: { Authorization: `Bearer ${t}` } });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Erro ao remover imagem");
+    if (data.restaurant) {
+      all = all.map(r => r.id === data.restaurant.id ? data.restaurant : r);
+      setImg("rest-img", "rest-placeholder", null);
+      $("delete-rest-img-btn").style.display = "none";
+      render();
+      showMsg("rest-form-message", "Imagem do restaurante removida.", "success");
+    }
+  });
+});
+
+$("profile-delete-rest-btn").addEventListener("click", () => {
+  const restId = Number($("restaurant-select").value);
+  if (!restId) return;
+  const rest = all.find(r => r.id === restId);
+  askConfirm("Excluir restaurante?", `Deseja excluir "${rest?.name || "este restaurante"}" e todos os seus pratos?`, async () => {
+    await removeRestaurantById(restId);
+    onRestaurantSelectChange();
+    await onDishSelectChange();
+    showMsg("rest-form-message", "Restaurante excluído com sucesso.", "success");
+  });
+});
+
+updateCartBadges();
 fetchRestaurants();
 </script>
 </body>
